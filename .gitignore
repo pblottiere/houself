@@ -1,0 +1,14 @@
+aclocal.m4
+autom4te.cache
+configure
+m4
+Makefile
+Makefile.in
+config.guess
+config.log
+config.status
+config.sub
+install-sh
+libtool
+ltmain.sh
+missing
