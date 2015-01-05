@@ -1,0 +1,37 @@
+#! /bin/sh
+
+#-------------------------------------------------------------------------------
+# vars
+#-------------------------------------------------------------------------------
+ARDUINO_PORT=""
+TARGET_HEX=""
+
+#-------------------------------------------------------------------------------
+# check usage
+#-------------------------------------------------------------------------------
+if [ "$#" = "2" ]
+then
+    ARDUINO_PORT=$1
+    TARGET_HEX=$2
+    
+    if [ ! -e $ARDUINO_PORT ] 
+    then
+        echo "Error: arduino port '$ARDUINO_PORT' doesn't exist."
+        exit 1
+    fi
+    
+    if [ ! -e $TARGET_HEX ] 
+    then
+        echo "Error: target hex '$TARGET_HEX' doesn't exist."
+        exit 1
+    fi
+else
+    echo "Usage error: ./upload.sh ARDUINO_PORT TARGET_HEX"
+    exit 1
+fi
+
+#-------------------------------------------------------------------------------
+# upload
+#-------------------------------------------------------------------------------
+sudo avrdude -q -V -p atmega328p -C /etc/avrdude.conf -c arduino -b 115200 \
+     -P ${ARDUINO_PORT} -U flash:w:${TARGET_HEX}:i

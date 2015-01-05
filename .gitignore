@@ -1,3 +1,4 @@
+# autotools
 aclocal.m4
 autom4te.cache
 configure
@@ -12,3 +13,14 @@ install-sh
 libtool
 ltmain.sh
 missing
+depcomp
+
+# compile results
+.deps
+*.o
+*.d
+*.hex
+*.lo
+*.a
+*.la
+*.elf
