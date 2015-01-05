@@ -1,0 +1,3 @@
+- serial protocol communication between arduino and the world (libtchat)
+- arduino servomoteur interface with libtchat
+- arduino led interface with libtchat
