@@ -19,7 +19,7 @@ public:
 
     void format();
 
-private:
+protected:
     TchatBuffer _buffer;
 };
 

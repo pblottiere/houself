@@ -10,7 +10,8 @@ ARDUINO_FLAGS += ${AM_CXXFLAGS}
 
 noinst_LTLIBRARIES = libarduino.la
 libarduino_la_SOURCES = ${top_srcdir}/src/lib/libtchat/TchatMsg.cpp \
-                        ${top_srcdir}/src/lib/libtchat/TchatBuffer.cpp
+                        ${top_srcdir}/src/lib/libtchat/TchatBuffer.cpp \
+                        ${top_srcdir}/src/lib/libtchat/TchatMsgLed.cpp
 
 all-local:
 	${ARDUINO_AR} ${AM_ARFLAGS} libarduino.a *.o
