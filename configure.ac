@@ -60,9 +60,11 @@ AC_OUTPUT(
         src/lib/Makefile
         src/lib/arduino/Makefile
         src/lib/arduino/core/Makefile
+        src/lib/libtchat/Makefile
         src/tools/Makefile
         src/tools/arduino/Makefile
         src/tools/arduino/blink/Makefile
+        src/tools/arduino/tchat/Makefile
 )
 
 # summary

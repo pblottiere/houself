@@ -10,9 +10,9 @@ Dependencies
 ------------
 
 Debian Wheezy:
-       - autotools (automake, autoconf, autoheader, ...)
-       - arduino-core
-       - avrdude
+..- autotools (automake, autoconf, autoheader, ...)
+..- arduino-core
+..- avrdude
 
 
 Keywords

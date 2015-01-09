@@ -1,0 +1,21 @@
+Global structure
+================
+
+ThchatMsg total size: 16 bytes
+
+TchatMsgHeader: 2 bytes
+TchatMsgBody: 12 bytes
+TchatMsgFooter: 2 bytes
+
+|--------|----------------------------------------------------|--------|
+  HEADER                          BODY                          FOOTER
+
+Byte 0: 0xAA (header)
+
+Byte 1: 
+        7 6 5 4: type (CMD, ACK)
+        3 2 1 0: target
+
+Byte 14: body checksum
+
+Byte 15: 0x66 (footer)
