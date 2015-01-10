@@ -1,3 +1,3 @@
 MAINTAINERCLEANFILES = 	Makefile.in Makefile
 
-SUBDIRS = libserial
+SUBDIRS = libserial libreactor
