@@ -4,14 +4,14 @@ SRC = tchat
 
 CC = ${ARDUINO_CC}
 CXX = ${ARDUINO_CXX}
-AM_CXXFLAGS = -I ${top_srcdir}/src/lib
+AM_CXXFLAGS = -I ${top_srcdir}/src/lib/common
 AM_ARFLAGS = rcs 
 ARDUINO_FLAGS += ${AM_CXXFLAGS}
 
 noinst_LTLIBRARIES = libarduino.la
-libarduino_la_SOURCES = ${top_srcdir}/src/lib/libtchat/TchatMsg.cpp \
-                        ${top_srcdir}/src/lib/libtchat/TchatBuffer.cpp \
-                        ${top_srcdir}/src/lib/libtchat/TchatMsgLed.cpp
+libarduino_la_SOURCES = ${top_srcdir}/src/lib/common/libtchat/TchatMsg.cpp \
+                        ${top_srcdir}/src/lib/common/libtchat/TchatBuffer.cpp \
+                        ${top_srcdir}/src/lib/common/libtchat/TchatMsgLed.cpp
 
 all-local:
 	${ARDUINO_AR} ${AM_ARFLAGS} libarduino.a *.o

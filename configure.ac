@@ -60,7 +60,10 @@ AC_OUTPUT(
         src/lib/Makefile
         src/lib/arduino/Makefile
         src/lib/arduino/core/Makefile
-        src/lib/libtchat/Makefile
+        src/lib/os/Makefile
+        src/lib/os/libserial/Makefile
+        src/lib/common/Makefile
+        src/lib/common/libtchat/Makefile
         src/tools/Makefile
         src/tools/arduino/Makefile
         src/tools/arduino/blink/Makefile

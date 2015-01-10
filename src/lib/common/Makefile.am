@@ -1,3 +1,3 @@
 MAINTAINERCLEANFILES = 	Makefile.in Makefile
 
-SUBDIRS = arduino os common
+SUBDIRS = libtchat
