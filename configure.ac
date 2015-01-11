@@ -66,6 +66,8 @@ AC_OUTPUT(
         src/lib/common/Makefile
         src/lib/common/libtchat/Makefile
         src/tools/Makefile
+        src/tools/os/Makefile
+        src/tools/os/monitor/Makefile
         src/tools/arduino/Makefile
         src/tools/arduino/blink/Makefile
         src/tools/arduino/tchat/Makefile

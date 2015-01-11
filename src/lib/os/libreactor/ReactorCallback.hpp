@@ -1,14 +1,18 @@
 #ifndef REACTOR_CALLBACK_HPP
 #define REACTOR_CALLBACK_HPP
 
+#include <zmq.hpp>
+#include <stdint.h>
+
 class ReactorCallback
 {
 public:
-    ReactorCallback(zmq_pollitem_t item);
+    ReactorCallback(zmq::socket_t *socket);
     ReactorCallback(int32_t fd);
 
     zmq_pollitem_t get_poll_item();
-    virtual void run() = 0;
+
+    virtual void cb() = 0;
 
 private:  
     zmq_pollitem_t _item;

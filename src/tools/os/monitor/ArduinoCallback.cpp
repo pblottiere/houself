@@ -1,4 +1,5 @@
-#include <libreactor/ReactorCallback.hpp>
+#include <stdio.h>
+#include "ArduinoCallback.hpp"
 
 //==============================================================================
 //
@@ -8,20 +9,10 @@
 //------------------------------------------------------------------------------
 // cst
 //------------------------------------------------------------------------------
-ReactorCallback::ReactorCallback(zmq::socket_t *socket)
+ArduinoCallback::ArduinoCallback(SerialPort *arduino_port) :
+    _arduino_port(arduino_port),
+    ReactorCallback(arduino_port->get_fd())
 {
-    _item.socket = socket;
-    _item.events = ZMQ_POLLIN;
-}
-
-//------------------------------------------------------------------------------
-// cst
-//------------------------------------------------------------------------------
-ReactorCallback::ReactorCallback(int32_t fd)
-{
-    _item.socket = NULL;
-    _item.fd = fd;
-    _item.events = ZMQ_POLLIN;
 }
 
 //==============================================================================
@@ -30,9 +21,14 @@ ReactorCallback::ReactorCallback(int32_t fd)
 //
 //==============================================================================
 //------------------------------------------------------------------------------
-// get_poll_item
+// cb
 //------------------------------------------------------------------------------
-zmq_pollitem_t ReactorCallback::get_poll_item()
+void ArduinoCallback::cb()
 {
-    return _item;
+    uint8_t buffer[256];
+    uint32_t bytes =_arduino_port->read_data(buffer);
+    
+    for(size_t j=0; j<bytes; j++)
+        printf("%02x ", buffer[j]);
+    printf("\n");
 }
