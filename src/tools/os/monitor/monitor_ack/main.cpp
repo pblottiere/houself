@@ -1,5 +1,8 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <signal.h>
+#include <sys/ioctl.h>
+#include <iostream>
 
 #include <libserial/SerialPort.hpp>
 #include <libreactor/Reactor.hpp>
@@ -23,16 +26,54 @@ void signal_handler(int sig) {
 }
 
 //------------------------------------------------------------------------------
+// clear_console
+//------------------------------------------------------------------------------
+void clear_console()
+{
+    struct winsize w;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+    for(size_t j=0; j<w.ws_row; j++)
+        printf("\n");
+}
+
+//------------------------------------------------------------------------------
 // main
 //------------------------------------------------------------------------------
-int main()
+int main(int argc, char **argv)
 {
+    // parse cli parameters
+    std::string port("");
+    std::string network("");
+    int c;
+    while ((c = getopt (argc, argv, "hp:")) != -1)
+        switch (c)
+        {
+        case 'h':
+            std::cout << "Usage: ./monitor -p device -n network" << std::endl;
+            return 0;
+        case 'p':
+            port.append(optarg);
+            break;
+        default:
+            std::cout << "Unknwon option. See --help." << std::endl;
+            return 1;
+        }
+
+    if( port.size() == 0 )
+    {
+        std::cout << "ERROR: see usage with --help." << std::endl;
+        return 1;
+    }
+
+    // clear console before anything
+    clear_console();
+
     // signal handler
     signal(SIGINT, signal_handler);
 
     // open all
     zmq::context_t zcontext(1);
-    SerialPort arduino_port("/dev/ttyACM0");
+    SerialPort arduino_port(port.c_str());
     bool rc = arduino_port.open_port();
 
     if( !rc )
@@ -51,8 +92,11 @@ int main()
         delete reactor;
     }
 
-    printf("Monitor correctly terminated...\n");
+    std::cout << "Monitor correctly terminated..." << std::endl;
 
     // return
     return 0;
+
+ERR:
+    return 1;
 }

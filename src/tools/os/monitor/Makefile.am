@@ -1,9 +1,3 @@
-MAINTAINERCLEANFILES = Makefile.in Makefile *.a
+MAINTAINERCLEANFILES = 	Makefile.in Makefile
 
-AM_CXXFLAGS = -I ${top_srcdir}/src/lib/os
-
-bin_PROGRAMS = monitor
-monitor_LDADD = -lzmq -L${top_srcdir}/src/lib/os/libreactor -lreactor \
-                -L${top_srcdir}/src/lib/os/libserial -lserial 
-monitor_SOURCES = main.cpp \
-                  ArduinoCallback.cpp
+SUBDIRS = monitor_ack

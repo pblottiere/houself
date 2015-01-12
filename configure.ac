@@ -25,6 +25,13 @@ AC_SUBST(ARDUINO_OBJCOPY, avr-objcopy)
 # check for programs
 AC_PROG_CXX
 
+AC_CHECK_PROG([screen], [screen], [yes], [no])
+AM_CONDITIONAL([FOUND_SCREEN], [test "x$screen" = xyes])
+AM_COND_IF([FOUND_SCREEN],
+           ,
+           [AC_MSG_ERROR([required program '${SCREEN}' not found.])
+])
+
 AC_CHECK_PROG([arduino_cc], ${ARDUINO_CC}, [yes], [no])
 AM_CONDITIONAL([FOUND_ARDUINO_CC], [test "x$arduino_cc" = xyes])
 AM_COND_IF([FOUND_ARDUINO_CC],
@@ -68,6 +75,7 @@ AC_OUTPUT(
         src/tools/Makefile
         src/tools/os/Makefile
         src/tools/os/monitor/Makefile
+        src/tools/os/monitor/monitor_ack/Makefile
         src/tools/arduino/Makefile
         src/tools/arduino/blink/Makefile
         src/tools/arduino/tchat/Makefile

@@ -30,6 +30,7 @@ bool SerialPort::open_port()
 {
     bool rc(false);
 
+    // open file descriptor
     _fd = open(_port, O_RDWR | O_NOCTTY | O_NDELAY);
     if (_fd != -1)
     {
@@ -40,6 +41,31 @@ bool SerialPort::open_port()
         perror("Serial::open_port: ");
         rc = true;
     }
+
+    // configure
+    struct termios options;
+
+    tcgetattr(_fd, &options);
+    cfsetispeed(&options, B9600);
+    cfsetospeed(&options, B9600);
+
+    options.c_cflag |= (CLOCAL | CREAD);
+
+    tcsetattr(_fd, TCSANOW, &options);
+    tcsetattr(_fd, TCSAFLUSH, &options);
+
+    options.c_cflag &= ~PARENB;
+    options.c_cflag &= ~CSTOPB;
+    options.c_cflag &= ~CSIZE;
+    options.c_cflag |= CS8;
+    options.c_cflag &= ~CRTSCTS; 
+
+    options.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
+
+    options.c_iflag &= ~(IXON | IXOFF | IXANY);
+
+    // flush data
+    tcflush(_fd, TCIOFLUSH);
 
     return rc;
 }

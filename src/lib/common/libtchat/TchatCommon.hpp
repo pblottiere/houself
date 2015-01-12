@@ -1,6 +1,7 @@
 #ifndef TCHAT_COMMON_HPP
 #define TCHAT_COMMON_HPP
 
+#include <stdint.h>
 #include <stddef.h>
 
 // size

@@ -38,7 +38,7 @@ void send_tchat_msg_led()
 {
     // build msg
     TchatMsgLed msg;
-    msg.set_type(TCHAT_TYPE_CMD);
+    msg.set_type(TCHAT_TYPE_ACK);
     msg.set_target(TCHAT_TARGET_LED);
     msg.set_pin(13);
     msg.set_status(TCHAT_LED_STATUS_ON);

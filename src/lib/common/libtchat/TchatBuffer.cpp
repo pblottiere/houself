@@ -1,4 +1,5 @@
 #include <stddef.h>
+#include <stdio.h>
 
 #include <libtchat/TchatMsg.hpp>
 #include <libtchat/TchatBuffer.hpp>
@@ -11,7 +12,8 @@
 //------------------------------------------------------------------------------
 // Cst
 //------------------------------------------------------------------------------
-TchatBuffer::TchatBuffer()
+TchatBuffer::TchatBuffer() :
+    _index(0)
 {
     clear();
 }
@@ -51,10 +53,40 @@ uint8_t TchatBuffer::get_byte(size_t index) const
 }
 
 //------------------------------------------------------------------------------
+// add_byte
+//------------------------------------------------------------------------------
+bool TchatBuffer::add_byte(uint8_t byte)
+{
+    bool rc(false);
+    
+    // clear if necessary
+    if ( (byte == TCHAT_HEADER)
+         || ( (byte == TCHAT_FOOTER) && (_index != TCHAT_MSG_SIZE-1) )
+         || (_index == TCHAT_MSG_SIZE))
+        clear();
+    
+    // set byte
+    if( ((_index == 0) && (byte == TCHAT_HEADER))
+        || ( (_index == TCHAT_MSG_SIZE-1) && (byte == TCHAT_FOOTER)) 
+        || ( (_index !=0) && (_index != TCHAT_MSG_SIZE-1)))
+        set_byte(_index++, byte);
+
+    // return value
+    if ( (_index == TCHAT_MSG_SIZE) 
+         && (_buffer[0] == TCHAT_HEADER)
+         && (_buffer[TCHAT_MSG_SIZE-1] == TCHAT_FOOTER) )
+        rc = true;
+
+    return rc;
+}
+
+//------------------------------------------------------------------------------
 // clear
 //------------------------------------------------------------------------------
 void TchatBuffer::clear()
 {
     for(size_t j=0; j<TCHAT_MSG_SIZE; j++)
         _buffer[j] = 0x00;
+
+    _index = 0;
 }
