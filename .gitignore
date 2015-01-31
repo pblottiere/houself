@@ -26,4 +26,5 @@ depcomp
 *.la
 *.elf
 
-monitor
+src/tools/os/monitor/monitor_ack/monitor_ack
+src/tools/os/monitor/monitor_cmd/monitor_cmd

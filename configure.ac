@@ -76,6 +76,7 @@ AC_OUTPUT(
         src/tools/os/Makefile
         src/tools/os/monitor/Makefile
         src/tools/os/monitor/monitor_ack/Makefile
+        src/tools/os/monitor/monitor_cmd/Makefile
         src/tools/arduino/Makefile
         src/tools/arduino/blink/Makefile
         src/tools/arduino/tchat/Makefile

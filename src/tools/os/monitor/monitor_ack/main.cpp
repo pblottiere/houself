@@ -54,16 +54,20 @@ int main(int argc, char **argv)
         case 'p':
             port.append(optarg);
             break;
+        case 'n':
+            network.append(optarg);
+            break;
         default:
             std::cout << "Unknwon option. See --help." << std::endl;
             return 1;
         }
 
-    if( port.size() == 0 )
+    if( ((port.size() == 0) && (network.size() == 0))
+        || ((port.size() != 0) && (network.size() != 0)) )
     {
         std::cout << "ERROR: see usage with --help." << std::endl;
         return 1;
-    }
+    }    
 
     // clear console before anything
     clear_console();

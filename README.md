@@ -6,6 +6,12 @@ automation system. But watch out, Dominus will become the master of
 your own house!
 
 
+Keywords
+--------
+
+Home automation - Arduino - Olinuxino - Android - C/C++
+
+
 Dependencies
 ------------
 
@@ -16,7 +22,26 @@ Debian Wheezy:
 - olinuxino cross-compiler (buildroot-a13-olinuxino)
 
 
-Keywords
---------
+Compile step
+------------
 
-Home automation - Arduino - Olinuxino - Android - C/C++
+Run:
+```
+./autogen.sh
+./configure
+make
+```
+
+
+Monitor
+-------
+
+Type CTRL-A CTRL-D to exit from monitor.
+
+
+Serial Port
+-----------
+
+Just a reminder about getting serial port settings:
+
+  stty -F /dev/ttyXX
