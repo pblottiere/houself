@@ -29,7 +29,7 @@ AC_CHECK_PROG([screen], [screen], [yes], [no])
 AM_CONDITIONAL([FOUND_SCREEN], [test "x$screen" = xyes])
 AM_COND_IF([FOUND_SCREEN],
            ,
-           [AC_MSG_ERROR([required program '${SCREEN}' not found.])
+           [AC_MSG_ERROR([required program 'screen' not found.])
 ])
 
 AC_CHECK_PROG([arduino_cc], ${ARDUINO_CC}, [yes], [no])
