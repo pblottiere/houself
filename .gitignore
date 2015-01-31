@@ -3,6 +3,8 @@ aclocal.m4
 autom4te.cache
 configure
 m4
+compile
+ar-lib
 Makefile
 Makefile.in
 config.guess
