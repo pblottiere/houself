@@ -9,7 +9,7 @@ your own house!
 Keywords
 --------
 
-Home automation - Arduino - Olinuxino - Android - C/C++
+Home automation - Arduino - Olinuxino - Android - C/C++ - CMake
 
 
 Dependencies
@@ -27,8 +27,9 @@ Compile step
 
 Run:
 ```
-./autogen.sh
-./configure
+mkdir build
+cd build
+cmake ..
 make
 ```
 
