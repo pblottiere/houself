@@ -1,23 +1,10 @@
-# autotools
-aclocal.m4
-autom4te.cache
-configure
-m4
+# cmake stuff
+CMakeFiles
+CMakeCache.txt
+cmake_install.cmake
 Makefile
-Makefile.in
-config.guess
-config.log
-config.status
-config.sub
-install-sh
-libtool
-ltmain.sh
-missing
-depcomp
-.libs
 
 # compile results
-.deps
 *.o
 *.d
 *.hex
@@ -25,6 +12,3 @@ depcomp
 *.a
 *.la
 *.elf
-
-src/tools/os/monitor/monitor_ack/monitor_ack
-src/tools/os/monitor/monitor_cmd/monitor_cmd
