@@ -25,7 +25,7 @@ Debian Wheezy:
 Compile step
 ------------
 
-Run:
+To compile all, run:
 ```
 mkdir build
 cd build
@@ -35,6 +35,14 @@ make
 
 or just:
 ```
+make
+```
+
+If you just want to compile OS libs and bins (without arduino stuff), run:
+```
+mkdir build
+cd build
+cmake -DOS_ONLY=ON ..
 make
 ```
 
