@@ -9,4 +9,4 @@ ReactorCallback.cpp
 Reactor.cpp
 )
 
-add_library (libreactor ${LIB_REACTOR_SRC})
+add_library (os_reactor ${LIB_REACTOR_SRC})
