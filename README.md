@@ -33,6 +33,10 @@ cmake ..
 make
 ```
 
+or just:
+```
+make
+```
 
 Monitor
 -------

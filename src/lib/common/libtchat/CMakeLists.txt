@@ -6,4 +6,4 @@ TchatMsgLed.cpp
 TchatMsgServo.cpp
 )
 
-add_library (common_tchat ${LIB_TCHAT_SRC})
+add_library (dominus_tchat ${LIB_TCHAT_SRC})
