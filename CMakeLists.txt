@@ -5,12 +5,23 @@ project (dominus)
 # CMAKE PATH
 #-------------------------------------------------------------------------------
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 #-------------------------------------------------------------------------------
 # CMAKE CLI OPTIONS
 #-------------------------------------------------------------------------------
 option(OS_ONLY "OS_ONLY" OFF)
+
+#-------------------------------------------------------------------------------
+# CMAKE CUSTOM COMMANDS
+#-------------------------------------------------------------------------------
+# uninstall target
+configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+    IMMEDIATE @ONLY)
+
+add_custom_target(uninstall
+    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
 
 #-------------------------------------------------------------------------------
 # ARDUINO STUFFS
