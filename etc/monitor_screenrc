@@ -1,7 +1,7 @@
 screen -t 'Monitor: acknowledgement' sh
 screen -t 'Monitor: command' sh
 select 'Monitor: acknowledgement'
-stuff "./monitor_ack/monitor_ack -p ${ARDUINO_PORT}^M"
+stuff "dominus_monitor_ack -p ${ARDUINO_PORT}^M"
 split
 focus down
 select 'Monitor: command'

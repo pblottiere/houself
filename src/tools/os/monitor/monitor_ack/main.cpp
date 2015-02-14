@@ -58,7 +58,7 @@ int main(int argc, char **argv)
             network.append(optarg);
             break;
         default:
-            std::cout << "Unknwon option. See --help." << std::endl;
+            std::cout << "Unknwon option. See -help." << std::endl;
             return 1;
         }
 
