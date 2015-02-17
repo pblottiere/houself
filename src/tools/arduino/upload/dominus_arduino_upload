@@ -26,7 +26,7 @@ then
         exit 1
     fi
 else
-    echo "Usage error: ./upload.sh ARDUINO_PORT TARGET_HEX"
+    echo "Usage error: dominus_arduino_upload ARDUINO_PORT TARGET_HEX"
     exit 1
 fi
 

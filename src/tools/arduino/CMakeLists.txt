@@ -1,2 +1,3 @@
-add_subdirectory (os)
-add_subdirectory (arduino)
+add_subdirectory (blink)
+add_subdirectory (tchat)
+add_subdirectory (upload)

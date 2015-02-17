@@ -6,6 +6,10 @@ project (dominus)
 #-------------------------------------------------------------------------------
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 
+set (COMMON_SRC_DIR ${PROJECT_SOURCE_DIR}/src/lib/common)
+set (TCHAT_SRC_DIR ${COMMON_SRC_DIR}/libtchat)
+set (LIBCORE_SRC_DIR ${PROJECT_BINARY_DIR}/src/lib/arduino/libcore/)
+
 #-------------------------------------------------------------------------------
 # CMAKE CLI OPTIONS
 #-------------------------------------------------------------------------------
@@ -26,17 +30,56 @@ add_custom_target(uninstall
 #-------------------------------------------------------------------------------
 # ARDUINO STUFFS
 #-------------------------------------------------------------------------------
+# global vars
 set(ARDUINO_SHARE /usr/share/arduino/hardware/arduino)
 set(ARDUINO_SRC ${ARDUINO_SHARE}/cores/arduino)
 set(ARDUINO_PINS ${ARDUINO_SHARE}/variants/standard)
-set(
-ARDUINO_FLAGS 
-"-mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=100 -g -Os -w -Wall -ffunction-sections -fdata-sections -I${ARDUINO_SRC} -I${ARDUINO_PINS}"
+set(ARDUINO_FLAGS_LIST "-mmcu=atmega328p;-DF_CPU=16000000L;-DARDUINO=100;-g;-Os;-w;-Wall;-ffunction-sections;-fdata-sections;-I${ARDUINO_SRC};-I${ARDUINO_PINS}"
 )
+string(REGEX REPLACE ";" " " ARDUINO_FLAGS_STR "${ARDUINO_FLAGS_LIST}") 
+
+# flags
+set(ARDUINO_C_FLAGS_LIB "-c ${ARDUINO_FLAGS_STR} -std=gnu99")
+set(ARDUINO_CXX_FLAGS_LIB "${ARDUINO_FLAGS_STR} -fno-exceptions")
+set(ARDUINO_AR_FLAGS_LIB "rcs")
+
+# compilers
 set(ARDUINO_CC avr-gcc)
 set(ARDUINO_CXX avr-g++)
 set(ARDUINO_AR avr-ar)
 set(ARDUINO_OBJCOPY avr-objcopy)
+
+#-------------------------------------------------------------------------------
+# MACRO
+#-------------------------------------------------------------------------------
+# fix compiler and flags to compile a static arduino lib
+macro (libarduino_fix_flags)
+    # fix compiler
+    set(CMAKE_C_COMPILER ${ARDUINO_CC})
+    set(CMAKE_CXX_COMPILER ${ARDUINO_CXX})
+    set(CMAKE_AR ${ARDUINO_AR})
+
+    # fix flags
+    set(CMAKE_C_FLAGS ${ARDUINO_C_FLAGS_LIB})
+    set(CMAKE_CXX_FLAGS ${ARDUINO_CXX_FLAGS_LIB})
+    set(CMAKE_AR_FLAGS ${ARDUINO_AR_FLAGS_LIB})
+endmacro ()
+
+# build command to compile c files with arduino compiler
+macro (binarduino_build_cmd_c SRC CMD_BUILD_D CMD_BUILD_O CMD_BUILD_ELF CMD_BUILD_HEX)
+  set (${CMD_BUILD_D} ${ARDUINO_CC} -MM ${ARDUINO_FLAGS_LIST} -I. -std=gnu99 ${CMAKE_CURRENT_SOURCE_DIR}/${SRC}.c -MF ${SRC}.d -MT ${SRC}.o)
+  set (${CMD_BUILD_O} ${ARDUINO_CC} -c ${ARDUINO_FLAGS_LIST} -I. -std=gnu99 ${CMAKE_CURRENT_SOURCE_DIR}/${SRC}.c -o ${SRC}.o)
+  set (${CMD_BUILD_ELF} ${ARDUINO_CC} -mmcu=atmega328p -Wl,--gc-sections -Os -o ${SRC}.elf ${SRC}.o ${LIBCORE_SRC_DIR}/libarduino_core.a -lc -lm)
+  set (${CMD_BUILD_HEX} ${ARDUINO_OBJCOPY} -O ihex -R .eeprom ${SRC}.elf ${SRC}.hex)
+endmacro()
+
+# build command to compile cpp files with arduino compiler
+macro (binarduino_build_cmd_cpp SRC CMD_BUILD_D CMD_BUILD_O CMD_BUILD_ELF CMD_BUILD_HEX)
+    set(${CMD_BUILD_D} ${ARDUINO_CXX} -MM ${ARDUINO_FLAGS_LIST} ${CMAKE_CURRENT_SOURCE_DIR}/${SRC}.cpp -MF ${SRC}.d -MT ${SRC}.o)
+    set(${CMD_BUILD_O} ${ARDUINO_CXX} -c ${ARDUINO_FLAGS_LIST} ${CMAKE_CURRENT_SOURCE_DIR}/${SRC}.cpp -o ${SRC}.o)
+    set(${CMD_BUILD_ELF} ${ARDUINO_CXX} -mmcu=atmega328p -Wl,--gc-sections -Os -o ${SRC}.elf ${SRC}.o ${LIBCORE_SRC_DIR}/libarduino_core.a ${CMAKE_CURRENT_BINARY_DIR}/libarduino.a -lc -lm)
+    set(${CMD_BUILD_HEX} ${ARDUINO_OBJCOPY} -O ihex -R .eeprom ${SRC}.elf ${SRC}.hex)
+endmacro()
 
 #-------------------------------------------------------------------------------
 # CHECK LIBS REQUIRED
