@@ -6,7 +6,6 @@
 class TchatMsgLed : public TchatMsg
 {
 public:
-
     void set_pin(uint32_t pin);
     uint32_t get_pin();
 

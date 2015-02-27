@@ -1,4 +1,4 @@
-#include <libtchat/TchatMsgLed.hpp>
+#include <libtchat/TchatMsgTemperature.hpp>
 
 //==============================================================================
 //
@@ -6,33 +6,25 @@
 //
 //==============================================================================
 //------------------------------------------------------------------------------
-// set_led
+// set_temperature
 //------------------------------------------------------------------------------
-void TchatMsgLed::set_pin(uint32_t pin)
+void TchatMsgTemperature::set_pin(uint8_t pin)
 {
-    _buffer.set_byte(TCHAT_POSITION_LED_PIN, pin);
+    _buffer.set_byte(TCHAT_POSITION_TEMPERATURE_PIN, pin);
 }
 
 //------------------------------------------------------------------------------
 // get_pin
 //------------------------------------------------------------------------------
-uint32_t TchatMsgLed::get_pin()
+uint8_t TchatMsgTemperature::get_pin()
 {
-    return (uint32_t) _buffer.get_byte(TCHAT_POSITION_LED_PIN);
+    return (uint8_t) _buffer.get_byte(TCHAT_POSITION_TEMPERATURE_PIN);
 }
 
 //------------------------------------------------------------------------------
-// set_status
+// get_temperature
 //------------------------------------------------------------------------------
-void TchatMsgLed::set_status(TCHAT_LED_STATUS status)
+uint8_t TchatMsgTemperature::get_temperature()
 {
-    _buffer.set_byte(TCHAT_POSITION_LED_STATUS, status);
-}
-
-//------------------------------------------------------------------------------
-// get_status
-//------------------------------------------------------------------------------
-TCHAT_LED_STATUS TchatMsgLed::get_status()
-{
-    return (TCHAT_LED_STATUS) _buffer.get_byte(TCHAT_POSITION_LED_STATUS);
+    return _buffer.get_byte(TCHAT_POSITION_TEMPERATURE_STATUS);
 }

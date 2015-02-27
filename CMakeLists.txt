@@ -77,7 +77,7 @@ endmacro()
 macro (binarduino_build_cmd_cpp SRC CMD_BUILD_D CMD_BUILD_O CMD_BUILD_ELF CMD_BUILD_HEX)
     set(${CMD_BUILD_D} ${ARDUINO_CXX} -MM ${ARDUINO_FLAGS_LIST} ${CMAKE_CURRENT_SOURCE_DIR}/${SRC}.cpp -MF ${SRC}.d -MT ${SRC}.o)
     set(${CMD_BUILD_O} ${ARDUINO_CXX} -c ${ARDUINO_FLAGS_LIST} ${CMAKE_CURRENT_SOURCE_DIR}/${SRC}.cpp -o ${SRC}.o)
-    set(${CMD_BUILD_ELF} ${ARDUINO_CXX} -mmcu=atmega328p -Wl,--gc-sections -Os -o ${SRC}.elf ${SRC}.o ${LIBCORE_SRC_DIR}/libarduino_core.a ${CMAKE_CURRENT_BINARY_DIR}/libarduino.a -lc -lm)
+    set(${CMD_BUILD_ELF} ${ARDUINO_CXX} -mmcu=atmega328p -Wl,--gc-sections -Os -o ${SRC}.elf ${SRC}.o ${LIBCORE_SRC_DIR}/libarduino_core.a -lc -lm)
     set(${CMD_BUILD_HEX} ${ARDUINO_OBJCOPY} -O ihex -R .eeprom ${SRC}.elf ${SRC}.hex)
 endmacro()
 

@@ -23,6 +23,16 @@ Byte 14: body checksum
 Byte 15: 0x66 (footer)
 
 
+Temperature message
+===================
+
+Byte 2: signal pin
+
+Byte 3: temperature
+
+Byte 4 -> 13: UNUSED
+
+
 LED message
 ===========
 

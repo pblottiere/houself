@@ -28,6 +28,6 @@ add_custom_target(
     ALL
     COMMAND ${CMD_BUILD_D}
     COMMAND ${CMD_BUILD_O} -I${COMMON_SRC_DIR} -I.
-    COMMAND ${CMD_BUILD_ELF}
+    COMMAND ${CMD_BUILD_ELF} ${CMAKE_CURRENT_BINARY_DIR}/libarduino.a
     COMMAND ${CMD_BUILD_HEX}
 )
