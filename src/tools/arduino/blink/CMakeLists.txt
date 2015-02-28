@@ -1,3 +1,15 @@
+# BUILD STATIC LIB
+libarduino_fix_flags()
+
+set(
+  LIB_BLINK
+  ${LIBCORE_SRC_FILES}
+)
+add_library (
+  arduino_lib_blink 
+  ${LIB_BLINK}
+)
+
 # BUILD BINARY
 set(SRC blink)
 binarduino_build_cmd_c(
@@ -13,6 +25,6 @@ add_custom_target(
     ALL
     COMMAND ${CMD_BUILD_D}
     COMMAND ${CMD_BUILD_O}
-    COMMAND ${CMD_BUILD_ELF}
+    COMMAND ${CMD_BUILD_ELF} ${CMAKE_CURRENT_BINARY_DIR}/libarduino_lib_blink.a
     COMMAND ${CMD_BUILD_HEX}
 )

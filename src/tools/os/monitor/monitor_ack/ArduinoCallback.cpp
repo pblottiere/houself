@@ -1,8 +1,12 @@
+//------------------------------------------------------------------------------
+// includes
+//------------------------------------------------------------------------------
 #include <stdio.h>
 #include <iostream>
 #include <libtchat/TchatMsg.hpp>
 #include <libtchat/TchatMsgLed.hpp>
 #include <libtchat/TchatMsgServo.hpp>
+#include <libtchat/TchatMsgTempHum.hpp>
 #include "ArduinoCallback.hpp"
 
 //==============================================================================
@@ -56,6 +60,11 @@ void ArduinoCallback::cb()
                     recv_ack_servo(&msg);
                     break;
                 }
+                case TCHAT_TARGET_TEMP_HUM:
+                {
+                    recv_ack_temp_hum(&msg);
+                    break;
+                }
                 default:
                     perror("Target unknown");
                 }
@@ -99,4 +108,16 @@ void ArduinoCallback::recv_ack_servo(TchatMsg *msg)
 {
     std::cout << get_date() << " SERVO" << std::endl;
     TchatMsgServo *servo = (TchatMsgServo*) msg;
+}
+
+//------------------------------------------------------------------------------
+// recv_ack_temp_hum
+//------------------------------------------------------------------------------
+void ArduinoCallback::recv_ack_temp_hum(TchatMsg *msg)
+{
+    TchatMsgTempHum *tmp = (TchatMsgTempHum*) msg;
+    std::cout << get_date() << " TEMPERATURE: " << (int) tmp->get_temperature() 
+              << "°" << std::endl;
+    std::cout << get_date() << " HUMIDITY: " << (int) tmp->get_humidity() 
+              << "°" << std::endl;
 }

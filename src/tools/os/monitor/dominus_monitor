@@ -6,7 +6,7 @@ DOMINUS_ETC="$DOMINUS_PREFIX/etc/dominus"
 if [ $# -eq 1 ]
 then
     sudo ARDUINO_PORT=$1 screen -c $DOMINUS_ETC/monitor_screenrc
-    sudo kill -9 $(ps -a | grep monitor_ack | awk '{print $1}')
+    sudo pkill dominus_monitor
 else
     echo "ERROR: usage is ./dominus_monitor /dev/ttyX"
 fi

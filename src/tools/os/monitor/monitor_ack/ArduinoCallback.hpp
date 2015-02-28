@@ -18,6 +18,7 @@ private:
 
     void recv_ack_led(TchatMsg *msg);
     void recv_ack_servo(TchatMsg *msg);
+    void recv_ack_temp_hum(TchatMsg *msg);
 
     TchatBuffer _tchat_buffer;
     SerialPort *_arduino_port;

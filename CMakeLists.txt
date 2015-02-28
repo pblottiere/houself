@@ -2,15 +2,6 @@ cmake_minimum_required (VERSION 2.6)
 project (dominus)
 
 #-------------------------------------------------------------------------------
-# CMAKE PATH
-#-------------------------------------------------------------------------------
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
-
-set (COMMON_SRC_DIR ${PROJECT_SOURCE_DIR}/src/lib/common)
-set (TCHAT_SRC_DIR ${COMMON_SRC_DIR}/libtchat)
-set (LIBCORE_SRC_DIR ${PROJECT_BINARY_DIR}/src/lib/arduino/libcore/)
-
-#-------------------------------------------------------------------------------
 # CMAKE CLI OPTIONS
 #-------------------------------------------------------------------------------
 option(OS_ONLY "OS_ONLY" OFF)
@@ -50,6 +41,41 @@ set(ARDUINO_AR avr-ar)
 set(ARDUINO_OBJCOPY avr-objcopy)
 
 #-------------------------------------------------------------------------------
+# CMAKE PATH
+#-------------------------------------------------------------------------------
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
+
+set (COMMON_SRC_DIR ${PROJECT_SOURCE_DIR}/src/lib/common)
+
+set (TCHAT_SRC_DIR ${COMMON_SRC_DIR}/libtchat)
+
+set (LIBCORE_SRC_DIR ${PROJECT_BINARY_DIR}/src/lib/arduino/libcore/)
+set (
+  LIBCORE_SRC_FILES
+  ${ARDUINO_SRC}/WInterrupts.c
+  ${ARDUINO_SRC}/wiring_analog.c
+  ${ARDUINO_SRC}/wiring.c
+  ${ARDUINO_SRC}/wiring_digital.c
+  ${ARDUINO_SRC}/wiring_pulse.c
+  ${ARDUINO_SRC}/wiring_shift.c
+  ${ARDUINO_SRC}/CDC.cpp
+  ${ARDUINO_SRC}/HardwareSerial.cpp
+  ${ARDUINO_SRC}/HID.cpp
+  ${ARDUINO_SRC}/IPAddress.cpp
+  ${ARDUINO_SRC}/main.cpp
+  ${ARDUINO_SRC}/new.cpp
+  ${ARDUINO_SRC}/Print.cpp
+  ${ARDUINO_SRC}/Stream.cpp
+  ${ARDUINO_SRC}/Tone.cpp
+  ${ARDUINO_SRC}/USBCore.cpp
+  ${ARDUINO_SRC}/WMath.cpp
+  ${ARDUINO_SRC}/WString.cpp
+)
+
+set (LIBDHT11_SRC_DIR ${PROJECT_SOURCE_DIR}/src/lib/arduino/libdht11/)
+set (LIBDHT11_BUILD_DIR ${PROJECT_BINARY_DIR}/src/lib/arduino/libdht11/)
+
+#-------------------------------------------------------------------------------
 # MACRO
 #-------------------------------------------------------------------------------
 # fix compiler and flags to compile a static arduino lib
@@ -69,7 +95,7 @@ endmacro ()
 macro (binarduino_build_cmd_c SRC CMD_BUILD_D CMD_BUILD_O CMD_BUILD_ELF CMD_BUILD_HEX)
   set (${CMD_BUILD_D} ${ARDUINO_CC} -MM ${ARDUINO_FLAGS_LIST} -I. -std=gnu99 ${CMAKE_CURRENT_SOURCE_DIR}/${SRC}.c -MF ${SRC}.d -MT ${SRC}.o)
   set (${CMD_BUILD_O} ${ARDUINO_CC} -c ${ARDUINO_FLAGS_LIST} -I. -std=gnu99 ${CMAKE_CURRENT_SOURCE_DIR}/${SRC}.c -o ${SRC}.o)
-  set (${CMD_BUILD_ELF} ${ARDUINO_CC} -mmcu=atmega328p -Wl,--gc-sections -Os -o ${SRC}.elf ${SRC}.o ${LIBCORE_SRC_DIR}/libarduino_core.a -lc -lm)
+  set (${CMD_BUILD_ELF} ${ARDUINO_CC} -mmcu=atmega328p -Wl,--gc-sections -Os -o ${SRC}.elf ${SRC}.o -lc -lm)
   set (${CMD_BUILD_HEX} ${ARDUINO_OBJCOPY} -O ihex -R .eeprom ${SRC}.elf ${SRC}.hex)
 endmacro()
 
@@ -77,7 +103,7 @@ endmacro()
 macro (binarduino_build_cmd_cpp SRC CMD_BUILD_D CMD_BUILD_O CMD_BUILD_ELF CMD_BUILD_HEX)
     set(${CMD_BUILD_D} ${ARDUINO_CXX} -MM ${ARDUINO_FLAGS_LIST} ${CMAKE_CURRENT_SOURCE_DIR}/${SRC}.cpp -MF ${SRC}.d -MT ${SRC}.o)
     set(${CMD_BUILD_O} ${ARDUINO_CXX} -c ${ARDUINO_FLAGS_LIST} ${CMAKE_CURRENT_SOURCE_DIR}/${SRC}.cpp -o ${SRC}.o)
-    set(${CMD_BUILD_ELF} ${ARDUINO_CXX} -mmcu=atmega328p -Wl,--gc-sections -Os -o ${SRC}.elf ${SRC}.o ${LIBCORE_SRC_DIR}/libarduino_core.a -lc -lm)
+    set(${CMD_BUILD_ELF} ${ARDUINO_CXX} -mmcu=atmega328p -Wl,--gc-sections -Os -o ${SRC}.elf ${SRC}.o -lc -lm)
     set(${CMD_BUILD_HEX} ${ARDUINO_OBJCOPY} -O ihex -R .eeprom ${SRC}.elf ${SRC}.hex)
 endmacro()
 

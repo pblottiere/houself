@@ -38,8 +38,8 @@ LIB_DHT11_ERROR LibDHT11::get_data(uint8_t &temperature, uint8_t &humidity)
         
         if (err == LIB_DHT11_ERROR_NO_ERROR)
         {
-            temperature = _buffer[0];
-            humidity = _buffer[2];
+            humidity = _buffer[0];
+            temperature = _buffer[2];
         }
     }    
 }

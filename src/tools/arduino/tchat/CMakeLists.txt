@@ -3,14 +3,15 @@ libarduino_fix_flags()
 include_directories (${COMMON_SRC_DIR})
 
 set(
-  LIB_ARDUINO_SRC
+  LIB_ARDUINO_TCHAT_SRC
   ${TCHAT_SRC_DIR}/TchatMsg.cpp
   ${TCHAT_SRC_DIR}/TchatBuffer.cpp
   ${TCHAT_SRC_DIR}/TchatMsgLed.cpp
+  ${LIBCORE_SRC_FILES}
 )
 add_library (
-  arduino 
-  ${LIB_ARDUINO_SRC}
+  arduino_tchat 
+  ${LIB_ARDUINO_TCHAT_SRC}
 )
 
 # BUILD BINARY
@@ -28,6 +29,6 @@ add_custom_target(
     ALL
     COMMAND ${CMD_BUILD_D}
     COMMAND ${CMD_BUILD_O} -I${COMMON_SRC_DIR} -I.
-    COMMAND ${CMD_BUILD_ELF} ${CMAKE_CURRENT_BINARY_DIR}/libarduino.a
+    COMMAND ${CMD_BUILD_ELF} ${CMAKE_CURRENT_BINARY_DIR}/libarduino_tchat.a
     COMMAND ${CMD_BUILD_HEX}
 )
