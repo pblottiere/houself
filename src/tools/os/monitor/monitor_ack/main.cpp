@@ -49,7 +49,9 @@ int main(int argc, char **argv)
         switch (c)
         {
         case 'h':
-            std::cout << "Usage: ./monitor -p device -n network" << std::endl;
+            std::cout << "Usage: dominus_monitor_ack:" << std::endl
+                      << "        -p device" << std::endl
+                      << "        -n network" << std::endl;
             return 0;
         case 'p':
             port.append(optarg);

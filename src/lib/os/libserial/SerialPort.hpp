@@ -8,11 +8,12 @@ class SerialPort
 {
 public:
     SerialPort(const char* port);
+    ~SerialPort();
 
     bool open_port();
     void close_port();
 
-    //uint32_t write(const char *buffer);
+    uint32_t write_data(const uint8_t *buffer);
     uint32_t read_data(uint8_t *buffer);
 
     int32_t get_fd();
