@@ -31,6 +31,8 @@ set(ARDUINO_OBJCOPY avr-objcopy)
 # CHECK LIBS REQUIRED
 #-------------------------------------------------------------------------------
 find_package(ZMQ REQUIRED)
+find_package(CURL REQUIRED)
+find_package(CURLpp REQUIRED)
 
 #-------------------------------------------------------------------------------
 # CHECK HEADERS REQUIRED
