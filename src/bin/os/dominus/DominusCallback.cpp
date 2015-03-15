@@ -94,10 +94,8 @@ std::string DominusCallback::get_date()
 void DominusCallback::recv_ack_temp_hum(TchatMsg *msg)
 {
   TchatMsgTempHum *tmp = (TchatMsgTempHum*) msg;
-  std::cout << get_date() << " TEMPERATURE: " << (int) tmp->get_temperature() 
-	    << "°" << std::endl;
-  std::cout << get_date() << " HUMIDITY: " << (int) tmp->get_humidity() 
-	    << "°" << std::endl;
+  std::cout << "[ " << (int) tmp->get_temperature()  << "° / " 
+	    <<(int) tmp->get_humidity()  << "% ]" << std::endl;
 
   // set parameters to send to domoticz 
   // cf www.domoticz.com/wiki/Domoticz_API/JSON_URL%27s
@@ -138,12 +136,29 @@ void DominusCallback::recv_ack_temp_hum(TchatMsg *msg)
     "&dsubtype=" + dsubtype + 
     "&nvalue=" + nvalue + 
     "&svalue=" + svalue;
-				
-  std::ostringstream os;
-  os << curlpp::options::Url(cmd);
+			
+  try
+  {
+    std::ostringstream os;
+    os << curlpp::options::Url(cmd);
 
-  std::string response = os.str();
-  std::cout << response << std::endl;
+    std::string response = os.str();
+    std::cout << response << std::endl;
+  }
+  catch( curlpp::RuntimeError &e )
+  {
+    std::cout << e.what() << std::endl;
+  }
+
+  catch( curlpp::LogicError &e )
+  {
+    std::cout << e.what() << std::endl;
+  }
+  catch(...)
+  {
+    std::cout << "unknonwn exception" << std::endl;
+  }
+
   //--------------------------------------------------------------------------
 
 
