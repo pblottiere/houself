@@ -20,8 +20,9 @@
 // cst
 //------------------------------------------------------------------------------
 DominusCallback::DominusCallback(SerialPort *dominus_port, 
-				 const std::string & domoticz_address) :
+				 const std::string & domoticz_ip) :
     _dominus_port(dominus_port),
+    _domoticz_ip(domoticz_ip),
     ReactorCallback(dominus_port->get_fd())
 {
 }
@@ -92,57 +93,58 @@ std::string DominusCallback::get_date()
 //------------------------------------------------------------------------------
 void DominusCallback::recv_ack_temp_hum(TchatMsg *msg)
 {
-    TchatMsgTempHum *tmp = (TchatMsgTempHum*) msg;
-    std::cout << get_date() << " TEMPERATURE: " << (int) tmp->get_temperature() 
-              << "°" << std::endl;
-    std::cout << get_date() << " HUMIDITY: " << (int) tmp->get_humidity() 
-              << "°" << std::endl;
+  TchatMsgTempHum *tmp = (TchatMsgTempHum*) msg;
+  std::cout << get_date() << " TEMPERATURE: " << (int) tmp->get_temperature() 
+	    << "°" << std::endl;
+  std::cout << get_date() << " HUMIDITY: " << (int) tmp->get_humidity() 
+	    << "°" << std::endl;
 
-    //TODO : set server configurable
-    //TO TEST ------------------------------------------------------------------
-    std::string server = "localhost:8080";
-    std::string hid = "1";
-    std::string did = "4000";
-    std::string dunit = "4";
-    std::string dtype = "82";
-    std::string dsubtype = "1";
-    std::string nvalue = "0";
-    //TODO : compute humidity confort : 
-    // 0=Normal
-    // 1=Comfortable
-    // 2=Dry
-    // 3=Wet
-    std::string hum_stat = "1";
+  // set parameters to send to domoticz 
+  // cf www.domoticz.com/wiki/Domoticz_API/JSON_URL%27s
+  std::string server = _domoticz_ip;
+  std::string hid = "1"; //id of the device
+  std::string did = "4000";
+  std::string dunit = "4";
+  std::string dtype = "82";  //type=temperature/humidity 
+  std::string dsubtype = "1";
+  std::string nvalue = "0";
 
-    //get temperature  
-    std::ostringstream temp_stream;
-    temp_stream << (int) tmp->get_temperature();
-    std::string temp_str = temp_stream.str();
-    // get humidity
-    std::ostringstream hum_stream;
-    hum_stream << (int) tmp->get_humidity();
-    std::string hum_str = hum_stream.str();
+  //get temperature  
+  std::ostringstream temp_stream;
+  temp_stream << (int) tmp->get_temperature();
+  std::string temp_str = temp_stream.str();
+  // get humidity
+  std::ostringstream hum_stream;
+  const int humidity = (int) tmp->get_humidity();
+  hum_stream << humidity;
+  std::string hum_str = hum_stream.str();
+  // compute humidity confort : 
+  //     0=Normal
+  //     1=Comfortable
+  //     2=Dry
+  //     3=Wet
+  std::string hum_stat = humidity < 30 ? "2" : (humidity > 70 ? "3" : "1");
 
-    //value
-    std::string svalue = temp_str + ";" + hum_str + ";" + hum_stat;
+  //value
+  std::string svalue = temp_str + ";" + hum_str + ";" + hum_stat;
 
-    std::string cmd =  "http://" + server + "/json.htm?"
-      "type=command"
-      "&param=udevice"
-      "&hid=" + hid + 
-      "&did=" + did + 
-      "&dunit=" + dunit + 
-      "&dtype=" + dtype + 
-      "&dsubtype=" + dsubtype + 
-      "&nvalue=" + nvalue + 
-      "&svalue=" + svalue;
+  std::string cmd =  "http://" + server + "/json.htm?"
+    "type=command"
+    "&param=udevice"
+    "&hid=" + hid + 
+    "&did=" + did + 
+    "&dunit=" + dunit + 
+    "&dtype=" + dtype + 
+    "&dsubtype=" + dsubtype + 
+    "&nvalue=" + nvalue + 
+    "&svalue=" + svalue;
 				
-    std::ostringstream os;
-    os << curlpp::options::Url(cmd);
+  std::ostringstream os;
+  os << curlpp::options::Url(cmd);
 
-    std::string response = os.str();
-    std::cout << response << std::endl;
-    //--------------------------------------------------------------------------
+  std::string response = os.str();
+  std::cout << response << std::endl;
+  //--------------------------------------------------------------------------
 
 
 

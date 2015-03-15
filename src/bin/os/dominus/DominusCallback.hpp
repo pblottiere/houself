@@ -10,19 +10,20 @@ class DominusCallback : public ReactorCallback
 {
 public:
   DominusCallback(SerialPort * arduino_port,
-		  const std::string & domoticz_address = "localhost:8080");
+		  const std::string & domoticz_ip);
 
-    void cb();
+  void cb();
 
 private:
-    std::string get_date(); 
+  std::string get_date(); 
 
-    void recv_ack_led(TchatMsg *msg);
-    void recv_ack_servo(TchatMsg *msg);
-    void recv_ack_temp_hum(TchatMsg *msg);
+  void recv_ack_led(TchatMsg *msg);
+  void recv_ack_servo(TchatMsg *msg);
+  void recv_ack_temp_hum(TchatMsg *msg);
 
-    TchatBuffer _tchat_buffer;
-    SerialPort *_dominus_port;
+  TchatBuffer _tchat_buffer;
+  SerialPort *_dominus_port;
+  const std::string _domoticz_ip;
 };
 
 #endif

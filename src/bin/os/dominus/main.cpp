@@ -32,7 +32,8 @@ void print_help()
 {
   std::cout << "Usage: dominus :" << std::endl
 	    << "        -p device" << std::endl
-	    << "        -n network" << std::endl;
+	    << "        -n network" << std::endl
+	    << "        -d domoticz ip:port" << std::endl;
 }
 
 
@@ -40,10 +41,11 @@ void print_help()
 //------------------------------------------------------------------------------
 // parse CLI
 //------------------------------------------------------------------------------
-const bool parse_cli(int argc, char **argv, std::string & port, std::string & network)
+const bool parse_cli(int argc, char **argv, std::string & port, 
+		     std::string & network, std::string & domoticz_ip)
 {
   int c;
-  while ((c = getopt (argc, argv, "hp:")) != -1)
+  while ((c = getopt (argc, argv, "hp:d:")) != -1)
   {
     switch (c)
     {
@@ -53,11 +55,17 @@ const bool parse_cli(int argc, char **argv, std::string & port, std::string & ne
     case 'n':
       network.append(optarg);
       break;
+    case 'd':
+      domoticz_ip.append(optarg);
+      break;
     default:
       print_help();
       break;
     }
   }
+
+  if (domoticz_ip.size() == 0)
+    domoticz_ip.append("localhost:8080");
 
   bool ok = ((port.size() == 0) ^ (network.size() == 0));
 
@@ -78,7 +86,8 @@ int main(int argc, char **argv)
     // parse cli parameters
     std::string port("");
     std::string network("");
-    if ( ! parse_cli(argc, argv, port, network) )
+    std::string domoticz_ip("");
+    if ( ! parse_cli(argc, argv, port, network, domoticz_ip) )
       return 1;  
   
 
@@ -93,7 +102,7 @@ int main(int argc, char **argv)
     if( !rc )
     {
         // init reactor and its callback
-        DominusCallback dominus_cb(&dominus_port);
+      DominusCallback dominus_cb(&dominus_port, domoticz_ip);
         
         reactor = new Reactor(&zcontext);
         reactor->register_event(&dominus_cb);
