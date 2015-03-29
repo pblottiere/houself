@@ -16,7 +16,7 @@ Dependencies
 ------------
 
 Debian Wheezy:
-- autotools (automake, autoconf, autoheader, ...)
+- cmake
 - arduino-core
 - avrdude
 - olinuxino cross-compiler (buildroot-a13-olinuxino)
