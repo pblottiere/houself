@@ -8,6 +8,8 @@
 #include <libtchat/TchatMsg.hpp>
 #include <libtchat/TchatMsgTempHum.hpp>
 
+int led = 13;
+
 //==============================================================================
 //
 // Custom functions
@@ -56,8 +58,12 @@ void send_tchat_msg_temperature()
 //------------------------------------------------------------------------------
 void setup()
 {
-    // init serial line
+    // init serial line   
+    pinMode(led, OUTPUT);  
     Serial.begin(9600);
+
+    if(Serial)
+        digitalWrite(led, HIGH);
 }
 
 //------------------------------------------------------------------------------
@@ -65,6 +71,11 @@ void setup()
 //------------------------------------------------------------------------------
 void loop() 
 {
+    // digitalWrite(led, HIGH);
+    // delay(1000);
+    // digitalWrite(led, LOW);
+    // delay(1000);
+
     // 
     send_tchat_msg_temperature();
     delay(2000);

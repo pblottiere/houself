@@ -1,11 +1,11 @@
 //------------------------------------------------------------------------------
 // includes
 //------------------------------------------------------------------------------
-#include <readline/readline.h>
-#include <readline/history.h>
 #include <unistd.h>
 #include <iostream>
 #include <zmq.hpp>
+
+#include "Terminal.hpp"
 
 //------------------------------------------------------------------------------
 // main
@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     std::string port("");
     uint32_t network = 0;
     int c;
-    while ((c = getopt (argc, argv, "hp:")) != -1)
+    while ((c = getopt (argc, argv, "hp:n:")) != -1)
         switch (c)
         {
         case 'h':
@@ -48,6 +48,10 @@ int main(int argc, char *argv[])
     zmq::context_t zcontext(1);
     zmq::socket_t pub(zcontext, ZMQ_PUB);
     pub.bind(pub_adress.c_str());    
+
+    // terminal mode
+    Terminal terminal;
+    terminal.run();
 
     return 0;
 }

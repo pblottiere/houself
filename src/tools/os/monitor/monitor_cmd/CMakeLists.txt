@@ -8,6 +8,7 @@ set(CMAKE_CXX_FLAGS -std=c++11)
 set(
   BIN_MONITOR_CMD_SRC
   main.cpp
+  Terminal.cpp
 )
 
 # BUILD BIN
@@ -18,6 +19,7 @@ target_link_libraries(
   dominus_reactor 
   dominus_serial 
   dominus_tchat
+  readline
 )
 
 # INSTALL BIN
