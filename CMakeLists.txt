@@ -76,6 +76,9 @@ set (
 set (LIBDHT11_SRC_DIR ${PROJECT_SOURCE_DIR}/src/lib/arduino/libdht11/)
 set (LIBDHT11_BUILD_DIR ${PROJECT_BINARY_DIR}/src/lib/arduino/libdht11/)
 
+set (LIBESP8266_SRC_DIR ${PROJECT_SOURCE_DIR}/src/lib/arduino/libesp8266/)
+set (LIBESP8266_BUILD_DIR ${PROJECT_BINARY_DIR}/src/lib/arduino/libesp8266/)
+
 #-------------------------------------------------------------------------------
 # MACRO
 #-------------------------------------------------------------------------------

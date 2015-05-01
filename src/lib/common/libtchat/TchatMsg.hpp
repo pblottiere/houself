@@ -2,7 +2,6 @@
 #define TCHAT_MSG_HPP
 
 #include <stdint.h>
-
 #include <libtchat/TchatBuffer.hpp>
 
 class TchatMsg

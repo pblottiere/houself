@@ -108,7 +108,6 @@ LIB_DHT11_ERROR LibDHT11::read_data()
             if (++timeout == 10000)
                 return LIB_DHT11_ERROR_TIMEOUT;
  
-        // /\* Si le delta Temps est supérieur à 40µS c'est un "1", sinon c'est un "0" *\/
         if ((micros() - t) > 40)
             _buffer[index] |= (1 << counter); // "1"
  
