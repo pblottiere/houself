@@ -28,7 +28,7 @@ set(ARDUINO_SRC ${ARDUINO_SHARE}/cores/arduino)
 set(ARDUINO_PINS ${ARDUINO_SHARE}/variants/standard)
 set(ARDUINO_FLAGS_LIST "-mmcu=atmega328p;-DF_CPU=16000000L;-DARDUINO=100;-g;-Os;-w;-Wall;-ffunction-sections;-fdata-sections;-I${ARDUINO_SRC};-I${ARDUINO_PINS};-I${ARDUINO_SHARE2}"
 )
-string(REGEX REPLACE ";" " " ARDUINO_FLAGS_STR "${ARDUINO_FLAGS_LIST}") 
+string(REGEX REPLACE ";" " " ARDUINO_FLAGS_STR "${ARDUINO_FLAGS_LIST}")
 
 # flags
 set(ARDUINO_C_FLAGS_LIB "-c ${ARDUINO_FLAGS_STR} -std=gnu99")
