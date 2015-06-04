@@ -1,7 +1,7 @@
 //------------------------------------------------------------------------------
 // includes
 //------------------------------------------------------------------------------
-#include "Arduino.h"
+#include <Arduino.h>
 
 // temperature/humidity
 #include <libdht11/LibDHT11.hpp>
@@ -9,6 +9,11 @@
 #include <libtchat/TchatMsg.hpp>
 #include <libtchat/TchatMsgTempHum.hpp>
 
+#include <config.h>
+
+//------------------------------------------------------------------------------
+// global var
+//------------------------------------------------------------------------------
 int32_t led(13);
 LibESP8266 wifi;
 bool ready(false);
@@ -46,7 +51,7 @@ void send_tchat_msg_temperature()
     msg.set_temperature(temperature);
     msg.set_humidity(humidity);
     msg.format();
-    
+
     // send serial data
     send_buffer(msg.get_buffer());
 }
@@ -62,7 +67,7 @@ void send_tchat_msg_temperature()
 void setup()
 {
     // init wifi
-    LIB_ESP8266_ERROR err = wifi.connect("PF", "AZENORPF");
+    LIB_ESP8266_ERROR err = wifi.connect(ESSID, PASSWORD);
     if (err == LIB_ESP8266_ERROR_NO_ERROR)
         ready = true;
 }
@@ -70,12 +75,12 @@ void setup()
 //------------------------------------------------------------------------------
 // loop
 //------------------------------------------------------------------------------
-void loop() 
+void loop()
 {
     if (ready)
     {
         // send temperature
-        send_tchat_msg_temperature();
-        delay(2000);
+        // send_tchat_msg_temperature();
+        delay(60000);
     }
 }

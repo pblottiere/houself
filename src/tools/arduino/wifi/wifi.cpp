@@ -7,10 +7,8 @@
 #include <libesp8266/LibESP8266.hpp>
 #include <libdht11/LibDHT11.hpp>
 
-#define ESSID               "PF"
-#define PASS                "AZENORPF"
-#define DOMINUS_SERVER      "192.168.1.33"
-#define DOMINUS_PORT        8080
+#include <config.h>
+
 #define DHT11_PIN           5
 
 LibESP8266 wifi;
@@ -22,7 +20,7 @@ SoftwareSerial dbg_serial(10, 11); // RX, TX
 // setup
 //------------------------------------------------------------------------------
 void setup()
-{   
+{
     // init dbg serial line
     dbg_serial.begin(9600);
     dbg_serial.println("WIFI ESP8266 tools");
@@ -30,7 +28,7 @@ void setup()
     // init wifi
     // wifi_ready = true;
     wifi.set_dbg_serial(dbg_serial);
-    LIB_ESP8266_ERROR err = wifi.connect(ESSID, PASS);
+    LIB_ESP8266_ERROR err = wifi.connect(ESSID, PASSWORD);
     if (err == LIB_ESP8266_ERROR_NO_ERROR)
         wifi_ready = true;
     else
@@ -60,7 +58,7 @@ void loop()
         msg += ";";
         msg += humidity;
         msg += ";1 HTTP/1.0\r\n\r\n";
-        wifi.send_tcp_msg(DOMINUS_SERVER, (int32_t) DOMINUS_PORT, msg);
+        wifi.send_tcp_msg(SERVER_IP, (int32_t) SERVER_PORT, msg);
 
         delay(2000);
     }

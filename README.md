@@ -25,7 +25,7 @@ Debian Wheezy:
 Compile step
 ------------
 
-To compile all, run:
+To compile, run:
 ```
 mkdir build
 cd build
@@ -35,6 +35,15 @@ make
 
 or just:
 ```
+make
+```
+
+To indicate your wifi access point name, password and server IP/port, run:
+```
+mkdir build
+cd build
+cmake -DESSID=your_essid -DPASSWORD=your_password -DSERVER_IP=XXX.XXX.XXX.XXX \
+      -DSERVER_PORT=XXXX ..
 make
 ```
 

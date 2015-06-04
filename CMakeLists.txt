@@ -19,6 +19,18 @@ add_custom_target(uninstall
     COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
 
 #-------------------------------------------------------------------------------
+# CMAKE CONFIGURATION FILE
+#-------------------------------------------------------------------------------
+SET( ESSID "YOUR_ESSID" CACHE STRING "Access point name")
+SET( PASSWORD "YOUR_PASSWORD" CACHE STRING "Wifi password")
+SET( SERVER_IP "SERVER_IP" CACHE STRING "The domoticz server IP")
+SET( SERVER_PORT "SERVER_PORT" CACHE STRING "The dommoticz server port")
+CONFIGURE_FILE(
+    ${CMAKE_SOURCE_DIR}/config.h.cmake
+    ${CMAKE_SOURCE_DIR}/config.h
+)
+
+#-------------------------------------------------------------------------------
 # ARDUINO STUFFS
 #-------------------------------------------------------------------------------
 # global vars
@@ -98,7 +110,7 @@ endmacro ()
 # build command to compile c files with arduino compiler
 macro (binarduino_build_cmd_c SRC CMD_BUILD_D CMD_BUILD_O CMD_BUILD_ELF CMD_BUILD_HEX)
   set (${CMD_BUILD_D} ${ARDUINO_CC} -MM ${ARDUINO_FLAGS_LIST} -I. -std=gnu99 ${CMAKE_CURRENT_SOURCE_DIR}/${SRC}.c -MF ${SRC}.d -MT ${SRC}.o)
-  set (${CMD_BUILD_O} ${ARDUINO_CC} -c ${ARDUINO_FLAGS_LIST} -I. -std=gnu99 ${CMAKE_CURRENT_SOURCE_DIR}/${SRC}.c -o ${SRC}.o)
+  set (${CMD_BUILD_O} ${ARDUINO_CC} -c ${ARDUINO_FLAGS_LIST} -I. -I${CMAKE_SOURCE_DIR}/ -std=gnu99 ${CMAKE_CURRENT_SOURCE_DIR}/${SRC}.c -o ${SRC}.o)
   set (${CMD_BUILD_ELF} ${ARDUINO_CC} -mmcu=atmega328p -Wl,--gc-sections -Os -o ${SRC}.elf ${SRC}.o -lc -lm)
   set (${CMD_BUILD_HEX} ${ARDUINO_OBJCOPY} -O ihex -R .eeprom ${SRC}.elf ${SRC}.hex)
 endmacro()
@@ -106,7 +118,7 @@ endmacro()
 # build command to compile cpp files with arduino compiler
 macro (binarduino_build_cmd_cpp SRC CMD_BUILD_D CMD_BUILD_O CMD_BUILD_ELF CMD_BUILD_HEX)
     set(${CMD_BUILD_D} ${ARDUINO_CXX} -MM ${ARDUINO_FLAGS_LIST} ${CMAKE_CURRENT_SOURCE_DIR}/${SRC}.cpp -MF ${SRC}.d -MT ${SRC}.o)
-    set(${CMD_BUILD_O} ${ARDUINO_CXX} -c ${ARDUINO_FLAGS_LIST} ${CMAKE_CURRENT_SOURCE_DIR}/${SRC}.cpp -o ${SRC}.o)
+    set(${CMD_BUILD_O} ${ARDUINO_CXX} -I${CMAKE_SOURCE_DIR}/ -c ${ARDUINO_FLAGS_LIST} ${CMAKE_CURRENT_SOURCE_DIR}/${SRC}.cpp -o ${SRC}.o)
     set(${CMD_BUILD_ELF} ${ARDUINO_CXX} -mmcu=atmega328p -Wl,--gc-sections -Os -o ${SRC}.elf ${SRC}.o -lc -lm)
     set(${CMD_BUILD_HEX} ${ARDUINO_OBJCOPY} -O ihex -R .eeprom ${SRC}.elf ${SRC}.hex)
 endmacro()
