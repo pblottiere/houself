@@ -23,27 +23,30 @@ enum LIB_ESP8266_ERROR
 //------------------------------------------------------------------------------
 // Class LibESP8266
 //------------------------------------------------------------------------------
-class LibESP8266
+namespace libesp8266
 {
-public:
-    LibESP8266();
-    
-    LIB_ESP8266_ERROR connect(const String &essid, const String &pass);
-    void set_dbg_serial(SoftwareSerial &serial);
-    LIB_ESP8266_ERROR send_tcp_msg(const String &ip, int32_t port, 
-                                   const String &msg);
-    
-private:
-    // methods
-    void log(const String &str);
-    void open_serial_port();
-    LIB_ESP8266_ERROR check_esp8266_online();
-    LIB_ESP8266_ERROR get_ip(const String &essid, const String &pass);
-    
-    // attr
-    SoftwareSerial *_dbg_serial;
-    int32_t _retry;
-    int32_t _speed;
-};
+    class ESP8266
+    {
+        public:
+            ESP8266();
+
+            LIB_ESP8266_ERROR connect(const String &essid, const String &pass);
+            void set_dbg_serial(SoftwareSerial &serial);
+            LIB_ESP8266_ERROR send_tcp_msg(const String &ip, int32_t port,
+                    const String &msg);
+
+        private:
+            // methods
+            void log(const String &str);
+            void open_serial_port();
+            LIB_ESP8266_ERROR check_esp8266_online();
+            LIB_ESP8266_ERROR get_ip(const String &essid, const String &pass);
+
+            // attr
+            SoftwareSerial *_dbg_serial;
+            int32_t _retry;
+            int32_t _speed;
+    };
+}
 
 #endif

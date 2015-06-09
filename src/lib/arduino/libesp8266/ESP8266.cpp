@@ -1,7 +1,9 @@
 //------------------------------------------------------------------------------
 // imports
 //------------------------------------------------------------------------------
-#include <libesp8266/LibESP8266.hpp>
+#include <libesp8266/ESP8266.hpp>
+
+using namespace libesp8266;
 
 //==============================================================================
 //
@@ -11,7 +13,7 @@
 //------------------------------------------------------------------------------
 // Cst
 //------------------------------------------------------------------------------
-LibESP8266::LibESP8266() :
+ESP8266::ESP8266() :
 _dbg_serial(NULL),
     _retry(10),
     _speed(9600)
@@ -26,7 +28,7 @@ _dbg_serial(NULL),
 //------------------------------------------------------------------------------
 // set_dbg_serial
 //------------------------------------------------------------------------------
-void LibESP8266::set_dbg_serial(SoftwareSerial &serial)
+void ESP8266::set_dbg_serial(SoftwareSerial &serial)
 {
     _dbg_serial = &serial;
 }
@@ -34,7 +36,7 @@ void LibESP8266::set_dbg_serial(SoftwareSerial &serial)
 //------------------------------------------------------------------------------
 // connect
 //------------------------------------------------------------------------------
-LIB_ESP8266_ERROR LibESP8266::connect(const String &essid, const String &pass)
+LIB_ESP8266_ERROR ESP8266::connect(const String &essid, const String &pass)
 {
     LIB_ESP8266_ERROR err(LIB_ESP8266_ERROR_NO_ERROR);
 
@@ -53,7 +55,7 @@ LIB_ESP8266_ERROR LibESP8266::connect(const String &essid, const String &pass)
 //------------------------------------------------------------------------------
 // send_tcp_msg
 //------------------------------------------------------------------------------
-LIB_ESP8266_ERROR LibESP8266::send_tcp_msg(const String &ip, int32_t port,
+LIB_ESP8266_ERROR ESP8266::send_tcp_msg(const String &ip, int32_t port,
                                            const String &msg)
 {
     LIB_ESP8266_ERROR err(LIB_ESP8266_ERROR_NO_ERROR);
@@ -83,12 +85,6 @@ LIB_ESP8266_ERROR LibESP8266::send_tcp_msg(const String &ip, int32_t port,
         delay(2000);
 
         log("OK");
-        // while (Serial.available())
-        // {
-        //     char c = Serial.read();
-        //     _dbg_serial->write(c);
-        //     if (c == '\r') _dbg_serial->print('\n');
-        // }
     }
     else
     {
@@ -109,7 +105,7 @@ LIB_ESP8266_ERROR LibESP8266::send_tcp_msg(const String &ip, int32_t port,
 //------------------------------------------------------------------------------
 // log
 //------------------------------------------------------------------------------
-void LibESP8266::log(const String &str)
+void ESP8266::log(const String &str)
 {
     if (_dbg_serial != NULL)
         _dbg_serial->println(str);
@@ -118,7 +114,7 @@ void LibESP8266::log(const String &str)
 //------------------------------------------------------------------------------
 // open_serial_port
 //------------------------------------------------------------------------------
-void LibESP8266::open_serial_port()
+void ESP8266::open_serial_port()
 {
     log("Open serial port...");
     Serial.begin(_speed);
@@ -128,7 +124,7 @@ void LibESP8266::open_serial_port()
 //------------------------------------------------------------------------------
 // check_esp8266_online
 //------------------------------------------------------------------------------
-LIB_ESP8266_ERROR LibESP8266::check_esp8266_online()
+LIB_ESP8266_ERROR ESP8266::check_esp8266_online()
 {
     log("Check if ESP8266 is online...");
 
@@ -157,7 +153,7 @@ LIB_ESP8266_ERROR LibESP8266::check_esp8266_online()
 //------------------------------------------------------------------------------
 // get_ip
 //------------------------------------------------------------------------------
-LIB_ESP8266_ERROR LibESP8266::get_ip(const String &essid, const String &pass)
+LIB_ESP8266_ERROR ESP8266::get_ip(const String &essid, const String &pass)
 {
     log("Get IP address...");
 
