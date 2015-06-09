@@ -4,10 +4,12 @@ include_directories (
   ${COMMON_SRC_DIR}
   ${LIBDHT11_SRC_DIR}/..
   ${LIBESP8266_SRC_DIR}/..
+  ${ARDUINO_SHARE2}/SoftwareSerial
 )
 
 set(
   LIB_ARDUINO_SERVER_SRC
+  ${ARDUINO_SHARE2}/SoftwareSerial/SoftwareSerial.cpp
   ${LIBCORE_SRC_FILES}
   ${TCHAT_SRC_DIR}/TchatMsg.cpp
   ${TCHAT_SRC_DIR}/TchatBuffer.cpp
@@ -16,17 +18,17 @@ set(
   ${LIBESP8266_SRC_DIR}/LibESP8266.cpp
 )
 add_library (
-  arduino_server 
+  arduino_server
   ${LIB_ARDUINO_SERVER_SRC}
 )
 
 # BUILD BINARY
 set(SRC server)
 binarduino_build_cmd_cpp(
-  ${SRC} 
-  CMD_BUILD_D 
-  CMD_BUILD_O 
-  CMD_BUILD_ELF 
+  ${SRC}
+  CMD_BUILD_D
+  CMD_BUILD_O
+  CMD_BUILD_ELF
   CMD_BUILD_HEX
 )
 

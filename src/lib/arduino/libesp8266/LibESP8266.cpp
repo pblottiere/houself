@@ -15,7 +15,7 @@ LibESP8266::LibESP8266() :
 _dbg_serial(NULL),
     _retry(10),
     _speed(9600)
-{   
+{
 }
 
 //==============================================================================
@@ -37,13 +37,13 @@ void LibESP8266::set_dbg_serial(SoftwareSerial &serial)
 LIB_ESP8266_ERROR LibESP8266::connect(const String &essid, const String &pass)
 {
     LIB_ESP8266_ERROR err(LIB_ESP8266_ERROR_NO_ERROR);
-    
+
     open_serial_port();
-    
+
     err = check_esp8266_online();
     if (err == LIB_ESP8266_ERROR_NO_ERROR)
         err = get_ip(essid, pass);
-    
+
     if (err == LIB_ESP8266_ERROR_NO_ERROR)
         log("Wifi ready.");
 
@@ -53,7 +53,7 @@ LIB_ESP8266_ERROR LibESP8266::connect(const String &essid, const String &pass)
 //------------------------------------------------------------------------------
 // send_tcp_msg
 //------------------------------------------------------------------------------
-LIB_ESP8266_ERROR LibESP8266::send_tcp_msg(const String &ip, int32_t port, 
+LIB_ESP8266_ERROR LibESP8266::send_tcp_msg(const String &ip, int32_t port,
                                            const String &msg)
 {
     LIB_ESP8266_ERROR err(LIB_ESP8266_ERROR_NO_ERROR);
@@ -64,14 +64,16 @@ LIB_ESP8266_ERROR LibESP8266::send_tcp_msg(const String &ip, int32_t port,
     cmd += "\",";
     cmd += port;
     Serial.println(cmd);
-    if (Serial.find("Error")) 
+    if (Serial.find("Error"))
     {
         log("TCP connection failed.");
         return err;
     }
-    
+    else
+        log("TCP connection successed.");
+
     log(cmd);
-    
+
     // send the message
     Serial.print("AT+CIPSEND=");
     Serial.println(msg.length());
@@ -79,8 +81,8 @@ LIB_ESP8266_ERROR LibESP8266::send_tcp_msg(const String &ip, int32_t port,
     {
         Serial.print(msg);
         delay(2000);
-        
-        _dbg_serial->println("OK");
+
+        log("OK");
         // while (Serial.available())
         // {
         //     char c = Serial.read();
@@ -89,13 +91,13 @@ LIB_ESP8266_ERROR LibESP8266::send_tcp_msg(const String &ip, int32_t port,
         // }
     }
     else
-    {   
+    {
         // close the connection
         Serial.println("AT+CIPCLOSE");
         log("Timeout");
         delay(1000);
     }
-    
+
     return err;
 }
 
@@ -110,7 +112,7 @@ LIB_ESP8266_ERROR LibESP8266::send_tcp_msg(const String &ip, int32_t port,
 void LibESP8266::log(const String &str)
 {
     if (_dbg_serial != NULL)
-        _dbg_serial->println(str);    
+        _dbg_serial->println(str);
 }
 
 //------------------------------------------------------------------------------
@@ -132,13 +134,13 @@ LIB_ESP8266_ERROR LibESP8266::check_esp8266_online()
 
     // vars
     LIB_ESP8266_ERROR err(LIB_ESP8266_ERROR_OFFLINE);
-    
+
     for (int i=0; i<_retry; i++)
     {
         // send a command
         Serial.println("AT");
         delay(3000);
-        
+
         // check ack
         if (Serial.find("OK"))
         {
@@ -189,7 +191,7 @@ LIB_ESP8266_ERROR LibESP8266::get_ip(const String &essid, const String &pass)
             log("OK");
             err = LIB_ESP8266_ERROR_NO_ERROR;
             break;
-        } 
+        }
     }
 
     return err;
