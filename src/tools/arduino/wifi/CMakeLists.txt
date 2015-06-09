@@ -9,8 +9,8 @@ set(
     LIB_WIFI
     ${ARDUINO_SHARE2}/SoftwareSerial/SoftwareSerial.cpp
     ${LIBCORE_SRC_FILES}
-    ${LIBDHT11_SRC_DIR}/LibDHT11.cpp
-    ${LIBESP8266_SRC_DIR}/LibESP8266.cpp
+    ${LIBDHT11_SRC_DIR}/DHT11.cpp
+    ${LIBESP8266_SRC_DIR}/ESP8266.cpp
 )
 add_library (
     arduino_lib_wifi

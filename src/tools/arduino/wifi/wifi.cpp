@@ -4,14 +4,14 @@
 #include <Arduino.h>
 #include <SoftwareSerial/SoftwareSerial.h>
 
-#include <libesp8266/LibESP8266.hpp>
-#include <libdht11/LibDHT11.hpp>
+#include <libesp8266/ESP8266.hpp>
+#include <libdht11/DHT11.hpp>
 
 #include <config.h>
 
 #define DHT11_PIN           5
 
-LibESP8266 wifi;
+libesp8266::ESP8266 wifi;
 bool wifi_ready = false;
 
 SoftwareSerial dbg_serial(10, 11); // RX, TX
@@ -45,7 +45,7 @@ void loop()
         // read data from sensor
         uint8_t temperature = 0x00;
         uint8_t humidity = 0x00;
-        LibDHT11 dht11(DHT11_PIN);
+        libdht11::DHT11 dht11(DHT11_PIN);
         dht11.get_data(temperature, humidity);
 
         dbg_serial.println("TEMP/HUM");
