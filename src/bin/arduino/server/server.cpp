@@ -1,15 +1,13 @@
 //------------------------------------------------------------------------------
 // includes
 //------------------------------------------------------------------------------
+// global include
 #include <Arduino.h>
 #include <SoftwareSerial/SoftwareSerial.h>
 
-// temperature/humidity
+// dominus include
 #include <libdht11/DHT11.hpp>
 #include <libesp8266/ESP8266.hpp>
-#include <libtchat/TchatMsg.hpp>
-#include <libtchat/TchatMsgTempHum.hpp>
-
 #include <config.h>
 
 //------------------------------------------------------------------------------
