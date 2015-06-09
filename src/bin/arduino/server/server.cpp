@@ -5,8 +5,8 @@
 #include <SoftwareSerial/SoftwareSerial.h>
 
 // temperature/humidity
-#include <libdht11/LibDHT11.hpp>
-#include <libesp8266/LibESP8266.hpp>
+#include <libdht11/DHT11.hpp>
+#include <libesp8266/ESP8266.hpp>
 #include <libtchat/TchatMsg.hpp>
 #include <libtchat/TchatMsgTempHum.hpp>
 
@@ -21,7 +21,7 @@ int32_t pin_led(13);
 int32_t pin_dht11(5);
 unsigned long period_msec(60000L);
 
-LibESP8266 wifi;
+libesp8266::ESP8266 wifi;
 bool wifi_ready(false);
 
 //==============================================================================
@@ -50,7 +50,7 @@ void update_temperature()
     // read data from sensor
     uint8_t temperature = 0x00;
     uint8_t humidity = 0x00;
-    LibDHT11 dht11(pin_dht11);
+    libdht11::DHT11 dht11(pin_dht11);
     LIB_DHT11_ERROR err = dht11.get_data(temperature, humidity);
 
     if (err == LIB_DHT11_ERROR_NO_ERROR)

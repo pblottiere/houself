@@ -14,8 +14,8 @@ set(
   ${TCHAT_SRC_DIR}/TchatMsg.cpp
   ${TCHAT_SRC_DIR}/TchatBuffer.cpp
   ${TCHAT_SRC_DIR}/TchatMsgTempHum.cpp
-  ${LIBDHT11_SRC_DIR}/LibDHT11.cpp
-  ${LIBESP8266_SRC_DIR}/LibESP8266.cpp
+  ${LIBDHT11_SRC_DIR}/DHT11.cpp
+  ${LIBESP8266_SRC_DIR}/ESP8266.cpp
 )
 add_library (
   arduino_server
