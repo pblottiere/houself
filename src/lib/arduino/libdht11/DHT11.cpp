@@ -1,5 +1,7 @@
 #include <Arduino.h>
-#include <libdht11/LibDHT11.hpp>
+#include <libdht11/DHT11.hpp>
+
+using namespace libdht11;
 
 //==============================================================================
 //
@@ -9,7 +11,7 @@
 //------------------------------------------------------------------------------
 // Cst
 //------------------------------------------------------------------------------
-LibDHT11::LibDHT11(uint8_t pin) :
+DHT11::DHT11(uint8_t pin) :
     _pin(pin),
     _pin_bitmask(digitalPinToBitMask(_pin)),
     _pin_port(digitalPinToPort(_pin)),
@@ -27,7 +29,7 @@ LibDHT11::LibDHT11(uint8_t pin) :
 //------------------------------------------------------------------------------
 // get_data
 //------------------------------------------------------------------------------
-LIB_DHT11_ERROR LibDHT11::get_data(uint8_t &temperature, uint8_t &humidity)
+LIB_DHT11_ERROR DHT11::get_data(uint8_t &temperature, uint8_t &humidity)
 {
     woke_up();
     LIB_DHT11_ERROR err = wait_reaction();
@@ -54,7 +56,7 @@ LIB_DHT11_ERROR LibDHT11::get_data(uint8_t &temperature, uint8_t &humidity)
 //------------------------------------------------------------------------------
 // woke_up
 //------------------------------------------------------------------------------
-void LibDHT11::woke_up()
+void DHT11::woke_up()
 {
     *_register_ddr |= _pin_bitmask;  // OUTPUT
     *_register_out &= ~_pin_bitmask; // LOW
@@ -66,7 +68,7 @@ void LibDHT11::woke_up()
 //------------------------------------------------------------------------------
 // wait_reaction
 //------------------------------------------------------------------------------
-LIB_DHT11_ERROR LibDHT11::wait_reaction()
+LIB_DHT11_ERROR DHT11::wait_reaction()
 {
     *_register_ddr &= ~_pin_bitmask; // INPUT
 
@@ -86,7 +88,7 @@ LIB_DHT11_ERROR LibDHT11::wait_reaction()
 //------------------------------------------------------------------------------
 // read_data
 //------------------------------------------------------------------------------
-LIB_DHT11_ERROR LibDHT11::read_data()
+LIB_DHT11_ERROR DHT11::read_data()
 {
     uint32_t timeout = 0;
     uint32_t index = 0;
