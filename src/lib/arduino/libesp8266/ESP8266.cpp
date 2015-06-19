@@ -2,6 +2,7 @@
 // imports
 //------------------------------------------------------------------------------
 #include <libesp8266/ESP8266.hpp>
+#include <libesp8266/Message.hpp>
 
 using namespace libesp8266;
 
@@ -14,7 +15,7 @@ using namespace libesp8266;
 // Cst
 //------------------------------------------------------------------------------
 ESP8266::ESP8266() :
-_dbg_serial(NULL),
+    _dbg_serial(NULL),
     _retry(10),
     _speed(9600)
 {
@@ -56,16 +57,14 @@ LIB_ESP8266_ERROR ESP8266::connect(const String &essid, const String &pass)
 // send_tcp_msg
 //------------------------------------------------------------------------------
 LIB_ESP8266_ERROR ESP8266::send_tcp_msg(const String &ip, int32_t port,
-                                           const String &msg)
+                                        const String &msg)
 {
     LIB_ESP8266_ERROR err(LIB_ESP8266_ERROR_NO_ERROR);
 
     // open TCP connection
-    String cmd = "AT+CIPSTART=\"TCP\",\"";
-    cmd += ip;
-    cmd += "\",";
-    cmd += port;
-    Serial.println(cmd);
+    MessageOpenLink cmd(LIB_ESP8266_MODE_TCP, ip, port);
+    Serial.println(cmd.get());
+
     if (Serial.find("Error"))
     {
         log("TCP connection failed.");
@@ -74,22 +73,21 @@ LIB_ESP8266_ERROR ESP8266::send_tcp_msg(const String &ip, int32_t port,
     else
         log("TCP connection successed.");
 
-    log(cmd);
-
     // send the message
-    Serial.print("AT+CIPSEND=");
-    Serial.println(msg.length());
+    MessageSendData send_data_cmd(msg);
+    Serial.println(send_data_cmd.get_part1());
+
     if (Serial.find(">"))
     {
-        Serial.print(msg);
+        Serial.print(send_data_cmd.get_part2());
         delay(2000);
-
-        log("OK");
     }
     else
     {
         // close the connection
-        Serial.println("AT+CIPCLOSE");
+        MessageCloseConnection close_cmd;
+        Serial.println(close_cmd.get());
+        log(close_cmd.get());
         log("Timeout");
         delay(1000);
     }
@@ -134,7 +132,8 @@ LIB_ESP8266_ERROR ESP8266::check_esp8266_online()
     for (int i=0; i<_retry; i++)
     {
         // send a command
-        Serial.println("AT");
+        MessageTest cmd;
+        Serial.println(cmd.get());
         delay(3000);
 
         // check ack
@@ -159,29 +158,26 @@ LIB_ESP8266_ERROR ESP8266::get_ip(const String &essid, const String &pass)
 
     LIB_ESP8266_ERROR err(LIB_ESP8266_ERROR_NOIP);
 
-    // build command
-    String cmd = "AT+CWJAP=\"";
-    cmd += essid;
-    cmd += "\",\"";
-    cmd += pass;
-    cmd += "\"";
-
     // try to get an IP
     for (int i=0; i<_retry; i++)
     {
-        Serial.println("AT+CWMODE=1");
-        Serial.println(cmd);
+        MessageWifiMode mode_cmd(LIB_ESP8266_WIFI_MODE_STA);
+        Serial.println(mode_cmd.get());
+
+        MessageJoinAP join_ap_cmd(essid, pass);
+        Serial.println(join_ap_cmd.get());
         delay(3000);
+
         if (Serial.find("OK"))
         {
             // single mode connection
-            Serial.println("AT+CIPMUX=0");
+            MessageConnectionMode conn_cmd(LIB_ESP8266_CONNECTION_MODE_SINGLE);
+            Serial.println(conn_cmd.get());
 
             // the connection is done. Get the IP
             delay(2000);
-            Serial.println("AT+CIFSR");
-            //while (Serial.available())
-            //_dbg_serial->write(Serial.read());
+            MessageGetIP ip_cmd;
+            Serial.println(ip_cmd.get());
 
             // dbg msg
             log("OK");

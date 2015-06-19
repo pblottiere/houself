@@ -15,12 +15,14 @@
 //------------------------------------------------------------------------------
 SoftwareSerial dbg_serial(10, 11); // RX, TX
 
+int32_t pin_rst(12);
 int32_t pin_led(13);
 int32_t pin_dht11(5);
-unsigned long period_msec(60000L);
 
 libesp8266::ESP8266 wifi;
 bool wifi_ready(false);
+
+unsigned long period_msec(60000L);
 
 //==============================================================================
 //
@@ -80,13 +82,19 @@ void setup()
     // init wifi
     wifi.set_dbg_serial(dbg_serial);
     LIB_ESP8266_ERROR err = wifi.connect(ESSID, PASSWORD);
+
     if (err == LIB_ESP8266_ERROR_NO_ERROR)
     {
         wifi_ready = true;
         digitalWrite(pin_led, HIGH);
     }
     else
-        digitalWrite(pin_led, LOW);
+    {
+        // reboot
+        pinMode(pin_rst, OUTPUT);
+        digitalWrite(pin_rst, HIGH);
+        dbg_serial.println("Wifi connection failed. Reboot...");
+    }
 }
 
 //------------------------------------------------------------------------------
