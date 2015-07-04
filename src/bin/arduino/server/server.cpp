@@ -90,8 +90,8 @@ void setup()
     {
         // reboot
         pinMode(pin_rst, OUTPUT);
-        digitalWrite(pin_rst, HIGH);
         dbg_serial.println("Wifi connection failed. Reboot...");
+        digitalWrite(pin_rst, HIGH);
     }
 }
 
