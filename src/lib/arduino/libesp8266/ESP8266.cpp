@@ -162,7 +162,7 @@ LIB_ESP8266_ERROR ESP8266::get_ip(const String &essid, const String &pass)
     // try to get an IP
     for (int i=0; i<_retry; i++)
     {
-        MessageWifiMode mode_cmd(LIB_ESP8266_WIFI_MODE_STA);
+        MessageWifiMode mode_cmd(LIB_ESP8266_WIFI_MODE_BOTH);
         Serial.println(mode_cmd.get());
 
         MessageJoinAP join_ap_cmd(essid, pass);
