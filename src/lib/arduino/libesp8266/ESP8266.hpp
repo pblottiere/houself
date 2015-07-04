@@ -32,8 +32,8 @@ namespace libesp8266
 
             LIB_ESP8266_ERROR connect(const String &essid, const String &pass);
             void set_dbg_serial(SoftwareSerial &serial);
-            LIB_ESP8266_ERROR send_tcp_msg(const String &ip, int32_t port,
-                    const String &msg);
+            LIB_ESP8266_ERROR send_http_request(const String &ip, int32_t port,
+                                                const String &msg);
 
         private:
             // methods

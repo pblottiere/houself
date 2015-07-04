@@ -34,10 +34,8 @@ unsigned long period_msec(60000L);
 //------------------------------------------------------------------------------
 String build_json_msg(uint8_t value1)
 {
-    // String msg = "GET /json.htm?type=command&param=udevice&hid=1&did=4000&dunit=4&dtype=82&dsubtype=1&nvalue=0&svalue=";
-    String msg = "GET /json.htm?type=command&param=udevice&idx=7&nvalue=0&svalue=";
+    String msg = "json.htm?type=command&param=udevice&idx=7&nvalue=0&svalue=";
     msg += value1;
-    msg += ";1 HTTP/1.0\r\n\r\n";
 
     return msg;
 }
@@ -58,7 +56,7 @@ void update_temperature()
         String msg = build_json_msg(temperature);
         dbg_serial.println("Send TCP message: ");
         dbg_serial.println(msg);
-        wifi.send_tcp_msg(SERVER_IP, (int32_t) SERVER_PORT, msg);
+        wifi.send_http_request(SERVER_IP, (int32_t) SERVER_PORT, msg);
     }
 }
 

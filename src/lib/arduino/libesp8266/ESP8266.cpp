@@ -54,10 +54,10 @@ LIB_ESP8266_ERROR ESP8266::connect(const String &essid, const String &pass)
 }
 
 //------------------------------------------------------------------------------
-// send_tcp_msg
+// send_http_request
 //------------------------------------------------------------------------------
-LIB_ESP8266_ERROR ESP8266::send_tcp_msg(const String &ip, int32_t port,
-                                        const String &msg)
+LIB_ESP8266_ERROR ESP8266::send_http_request(const String &ip, int32_t port,
+                                             const String &msg)
 {
     LIB_ESP8266_ERROR err(LIB_ESP8266_ERROR_NO_ERROR);
 
@@ -74,7 +74,8 @@ LIB_ESP8266_ERROR ESP8266::send_tcp_msg(const String &ip, int32_t port,
         log("TCP connection successed.");
 
     // send the message
-    MessageSendData send_data_cmd(msg);
+    String http_msg = "GET /" + msg + ";1 HTTP/1.0\r\n\r\n";
+    MessageSendData send_data_cmd(http_msg);
     Serial.println(send_data_cmd.get_part1());
 
     if (Serial.find(">"))

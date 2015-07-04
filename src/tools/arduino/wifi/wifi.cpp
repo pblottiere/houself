@@ -53,12 +53,11 @@ void loop()
         dbg_serial.println(humidity);
         dbg_serial.println("DONE");
 
-        String msg = "GET /json.htm?type=command&param=udevice&hid=1&did=4000&dunit=4&dtype=82&dsubtype=1&nvalue=0&svalue=";
+        String msg = "json.htm?type=command&param=udevice&hid=1&did=4000&dunit=4&dtype=82&dsubtype=1&nvalue=0&svalue=";
         msg += temperature;
         msg += ";";
         msg += humidity;
-        msg += ";1 HTTP/1.0\r\n\r\n";
-        wifi.send_tcp_msg(SERVER_IP, (int32_t) SERVER_PORT, msg);
+        wifi.send_http_request(SERVER_IP, (int32_t) SERVER_PORT, msg);
 
         delay(2000);
     }
