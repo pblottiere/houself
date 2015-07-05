@@ -25,8 +25,7 @@ enum LIB_ESP8266_WIFI_MODE
 enum LIB_ESP8266_CONNECTION_MODE
 {
     LIB_ESP8266_CONNECTION_MODE_SINGLE = 0,
-    LIB_ESP8266_CONNECTION_MODE_MULTIPLE = 1,
-    b
+    LIB_ESP8266_CONNECTION_MODE_MULTIPLE = 1
 };
 
 //==============================================================================
