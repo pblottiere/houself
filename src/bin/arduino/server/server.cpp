@@ -30,6 +30,15 @@ unsigned long period_msec(60000L);
 //
 //==============================================================================
 //------------------------------------------------------------------------------
+// arduino_reset
+//------------------------------------------------------------------------------
+void arduino_reset()
+{
+    pinMode(pin_rst, OUTPUT);
+    digitalWrite(pin_rst, HIGH);
+}
+
+//------------------------------------------------------------------------------
 // build_json_msg
 //------------------------------------------------------------------------------
 String build_json_msg(uint8_t value1)
@@ -54,8 +63,6 @@ void update_temperature()
     if (err == LIB_DHT11_ERROR_NO_ERROR)
     {
         String msg = build_json_msg(temperature);
-        dbg_serial.println("Send TCP message: ");
-        dbg_serial.println(msg);
         wifi.send_http_request(SERVER_IP, (int32_t) SERVER_PORT, msg);
     }
 }
@@ -75,7 +82,10 @@ void setup()
 
     // init dbg serial
     dbg_serial.begin(9600);
-    dbg_serial.println("WIFI ESP8266 init...");
+
+    dbg_serial.println();
+    dbg_serial.println();
+    dbg_serial.println("[SERVER] Init ESP8266 wifi...");
 
     // init wifi
     wifi.set_dbg_serial(dbg_serial);
@@ -83,15 +93,16 @@ void setup()
 
     if (err == LIB_ESP8266_ERROR_NO_ERROR)
     {
+        dbg_serial.println("[SERVER] Wifi connection ready");
         wifi_ready = true;
         digitalWrite(pin_led, HIGH);
     }
     else
     {
-        // reboot
-        pinMode(pin_rst, OUTPUT);
-        dbg_serial.println("Wifi connection failed. Reboot...");
-        digitalWrite(pin_rst, HIGH);
+        // reboot wifi and arduino
+        dbg_serial.println("[SERVER] Wifi connection failed. Reboot...");
+        wifi.reset();
+        arduino_reset();
     }
 }
 
