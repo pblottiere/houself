@@ -41,7 +41,18 @@ void arduino_reset()
 //------------------------------------------------------------------------------
 // build_json_msg
 //------------------------------------------------------------------------------
-String build_json_msg(uint8_t value1)
+String float_to_str(const float f)
+{
+    char val[10];
+    dtostrf(f, 4, 2, val);
+
+    return val;
+}
+
+//------------------------------------------------------------------------------
+// build_json_msg
+//------------------------------------------------------------------------------
+String build_json_msg(String value1)
 {
     String msg = "json.htm?type=command&param=udevice&idx=7&nvalue=0&svalue=";
     msg += value1;
@@ -55,14 +66,20 @@ String build_json_msg(uint8_t value1)
 void update_temperature()
 {
     // read data from sensor
-    uint8_t temperature = 0x00;
-    uint8_t humidity = 0x00;
+    uint8_t temperature = 0.0;
+    uint8_t humidity = 0.0;
     libdht11::DHT11 dht11(pin_dht11);
     LIB_DHT11_ERROR err = dht11.get_data(temperature, humidity);
 
+    String temperature_str = float_to_str(temperature);
+    String humidity_str = float_to_str(humidity);
+
+    dbg_serial.println("[DHT11] Temperature : " + temperature_str
+            + " / humidity : " + humidity_str);
+
     if (err == LIB_DHT11_ERROR_NO_ERROR)
     {
-        String msg = build_json_msg(temperature);
+        String msg = build_json_msg(temperature_str);
         wifi.send_http_request(SERVER_IP, (int32_t) SERVER_PORT, msg);
     }
 }
