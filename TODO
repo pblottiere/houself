@@ -1,3 +1,8 @@
+- work on esp8266 lua firware and server:
+    http://nodemcu.com/index_en.html
+    https://github.com/nodemcu/nodemcu-firmware
+    https://github.com/themadinventor/esptool
+    http://www.instructables.com/id/Low-cost-WIFI-temperature-data-logger-based-on-ESP/
 - arduino servomoteur interface with libtchat
 - arduino led interface with libtchat
 - add monitor_cmd
