@@ -12,12 +12,7 @@ using namespace libdht11;
 // Cst
 //------------------------------------------------------------------------------
 DHT11::DHT11(uint8_t pin) :
-    _pin(pin),
-    _pin_bitmask(digitalPinToBitMask(_pin)),
-    _pin_port(digitalPinToPort(_pin)),
-    _register_ddr(portModeRegister(_pin_port)),
-    _register_out(portOutputRegister(_pin_port)),
-    _register_in(portInputRegister(_pin_port))
+    _pin(pin)
 {
 }
 
@@ -58,10 +53,10 @@ LIB_DHT11_ERROR DHT11::get_data(uint8_t &temperature, uint8_t &humidity)
 //------------------------------------------------------------------------------
 void DHT11::woke_up()
 {
-    *_register_ddr |= _pin_bitmask;  // OUTPUT
-    *_register_out &= ~_pin_bitmask; // LOW
+    pinMode(this->_pin, OUTPUT);
+    digitalWrite(this->_pin, LOW);
     delay(18);                       // Wait to woke up sensor
-    *_register_out |= _pin_bitmask;  // HIGH
+    digitalWrite(this->_pin, HIGH);
     delayMicroseconds(40);           // Wait to woke up sensor
 }
 
@@ -70,15 +65,15 @@ void DHT11::woke_up()
 //------------------------------------------------------------------------------
 LIB_DHT11_ERROR DHT11::wait_reaction()
 {
-    *_register_ddr &= ~_pin_bitmask; // INPUT
+    pinMode(this->_pin, INPUT);
 
     uint32_t timeout = 0;
-    while(!(*_register_in & _pin_bitmask)) // wait a LOW state
+    while(digitalRead(this->_pin) == LOW)
         if (++timeout == 10000)
             return LIB_DHT11_ERROR_TIMEOUT;
 
     timeout = 0;
-    while(*_register_in & _pin_bitmask) // wait a HIGH state
+    while(digitalRead(this->_pin) == HIGH)
         if (++timeout == 10000)
             return LIB_DHT11_ERROR_TIMEOUT;
 
@@ -99,7 +94,7 @@ LIB_DHT11_ERROR DHT11::read_data()
     {
         // wait a LOW state
         timeout = 0;
-        while(!(*_register_in & _pin_bitmask))
+        while(digitalRead(this->_pin) == LOW)
             if (++timeout == 10000)
                 return LIB_DHT11_ERROR_TIMEOUT;
 
@@ -108,19 +103,21 @@ LIB_DHT11_ERROR DHT11::read_data()
 
         // wait a HIGH state
         timeout = 0;
-        while(*_register_in & _pin_bitmask)
+        while(digitalRead(this->_pin) == HIGH)
             if (++timeout == 10000)
                 return LIB_DHT11_ERROR_TIMEOUT;
 
         if ((micros() - t) > 40)
-            _buffer[index] |= (1 << counter); // "1"
+            _buffer[index] |= (1 << counter);
 
         // stop
-        if (counter-- == 0)
+        if (counter == 0)
         {
             counter = 7; // next byte
-            ++index;
+            index++;
         }
+        else
+            counter--;
     }
 
     // checksum

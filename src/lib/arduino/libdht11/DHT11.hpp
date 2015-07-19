@@ -39,11 +39,6 @@ namespace libdht11 {
 
         // attr
         uint8_t _pin;
-        uint8_t _pin_bitmask;
-        uint8_t _pin_port;
-        volatile uint8_t *_register_ddr;
-        volatile uint8_t *_register_out;
-        volatile uint8_t *_register_in;
         uint8_t _buffer[LIB_DHT11_BUFFER_SIZE] = {};
     };
 }
