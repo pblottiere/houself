@@ -6,3 +6,4 @@
 - arduino servomoteur interface with libtchat
 - arduino led interface with libtchat
 - add monitor_cmd
+- add shell script to build/clean/install/uninstall a local domoticz

@@ -203,3 +203,5 @@ endif(NOT SCREEN)
 #-------------------------------------------------------------------------------
 add_subdirectory (etc)
 add_subdirectory (src)
+add_subdirectory (tests)
+add_subdirectory (tools)
