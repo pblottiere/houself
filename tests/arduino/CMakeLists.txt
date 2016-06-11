@@ -1,3 +1,5 @@
+add_subdirectory( mock )
 add_subdirectory( blink )
 add_subdirectory( wifi )
 add_subdirectory( tchat )
+add_subdirectory( temp_hum_server )

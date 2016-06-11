@@ -1,14 +1,14 @@
 cmake_minimum_required (VERSION 2.6)
 project (dominus)
 
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 # CMAKE CLI OPTIONS
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 option(OS_ONLY "OS_ONLY" OFF)
 
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 # CMAKE CUSTOM COMMANDS
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 # uninstall target
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
@@ -18,9 +18,9 @@ configure_file(
 add_custom_target(uninstall
     COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
 
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 # CMAKE CONFIGURATION FILE
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 SET( ESSID "YOUR_ESSID" CACHE STRING "Access point name")
 SET( PASSWORD "YOUR_PASSWORD" CACHE STRING "Wifi password")
 SET( SERVER_IP "SERVER_IP" CACHE STRING "The domoticz server IP")
@@ -30,9 +30,9 @@ CONFIGURE_FILE(
     ${CMAKE_SOURCE_DIR}/config.h
 )
 
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 # ARDUINO STUFFS
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 # global vars
 set(ARDUINO_SHARE /usr/share/arduino/hardware/arduino)
 set(ARDUINO_SHARE2 /usr/share/arduino/libraries)
@@ -53,12 +53,16 @@ set(ARDUINO_CXX avr-g++)
 set(ARDUINO_AR avr-ar)
 set(ARDUINO_OBJCOPY avr-objcopy)
 
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 # CMAKE PATH
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 
+set (SERVER_SRC_DIR ${PROJECT_SOURCE_DIR}/src/bin/arduino/server)
+
 set (COMMON_SRC_DIR ${PROJECT_SOURCE_DIR}/src/lib/common)
+
+set (MOCK_SRC_DIR ${PROJECT_SOURCE_DIR}/tests/arduino/mock)
 
 set (TCHAT_SRC_DIR ${COMMON_SRC_DIR}/libtchat)
 
@@ -91,9 +95,9 @@ set (LIBDHT11_BUILD_DIR ${PROJECT_BINARY_DIR}/src/lib/arduino/libdht11/)
 set (LIBESP8266_SRC_DIR ${PROJECT_SOURCE_DIR}/src/lib/arduino/libesp8266/)
 set (LIBESP8266_BUILD_DIR ${PROJECT_BINARY_DIR}/src/lib/arduino/libesp8266/)
 
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 # MACRO
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 # fix compiler and flags to compile a static arduino lib
 macro (libarduino_fix_flags)
     # fix compiler
@@ -123,16 +127,16 @@ macro (binarduino_build_cmd_cpp SRC CMD_BUILD_D CMD_BUILD_O CMD_BUILD_ELF CMD_BU
     set(${CMD_BUILD_HEX} ${ARDUINO_OBJCOPY} -O ihex -R .eeprom ${SRC}.elf ${SRC}.hex)
 endmacro()
 
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 # CHECK LIBS REQUIRED
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 find_package(ZMQ REQUIRED)
 find_package(CURL REQUIRED)
 find_package(CURLpp REQUIRED)
 
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 # CHECK HEADERS REQUIRED
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 include (CheckIncludeFiles)
 
 if(NOT OS_ONLY)
@@ -153,9 +157,9 @@ if(NOT OS_ONLY)
   endif(NOT EXISTS ${ARDUINO_PINS_H})
 endif(NOT OS_ONLY)
 
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 # CHECK BIN REQUIRED
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 if(NOT OS_ONLY)
   # arduino c compiler
   find_program(BIN_ARDUINO_CC ${ARDUINO_CC})
@@ -198,9 +202,9 @@ else()
   message(STATUS "Found 'screen': " ${SCREEN})
 endif(NOT SCREEN)
 
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 # SUBDIRS
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 add_subdirectory (etc)
 add_subdirectory (src)
 add_subdirectory (tests)

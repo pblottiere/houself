@@ -95,7 +95,8 @@ namespace libesp8266
         public:
             MessageSendData(String msg)
             {
-                this->_part1 = "AT+CIPSEND=" + String(msg.length());
+                this->_part1 = "AT+CIPSEND=";
+                this->_part1 += msg.length();
                 this->_part2 = msg;
                 this->_message = this->_part1 + this->_part2;
             };
@@ -138,7 +139,8 @@ namespace libesp8266
         public:
             MessageWifiMode(LIB_ESP8266_WIFI_MODE mode)
             {
-                this->_message = "AT+CWMODE=" + mode;
+                this->_message = "AT+CWMODE=";
+                this->_message += mode;
             };
     };
 
@@ -150,7 +152,8 @@ namespace libesp8266
         public:
             MessageConnectionMode(LIB_ESP8266_CONNECTION_MODE mode)
             {
-                this->_message = "AT+CIPMUX=" + mode;
+                this->_message = "AT+CIPMUX=";
+                this->_message += mode;
             };
     };
 

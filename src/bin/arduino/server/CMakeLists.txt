@@ -23,7 +23,7 @@ add_library (
 )
 
 # BUILD BINARY
-set(SRC server)
+set(SRC server main)
 binarduino_build_cmd_cpp(
   ${SRC}
   CMD_BUILD_D

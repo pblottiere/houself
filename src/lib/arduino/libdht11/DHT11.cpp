@@ -29,6 +29,7 @@ LIB_DHT11_ERROR DHT11::get_data(uint8_t &temperature, uint8_t &humidity)
     woke_up();
     LIB_DHT11_ERROR err = wait_reaction();
 
+#ifndef MOCK
     if (err == LIB_DHT11_ERROR_NO_ERROR)
     {
         err = read_data();
@@ -39,6 +40,11 @@ LIB_DHT11_ERROR DHT11::get_data(uint8_t &temperature, uint8_t &humidity)
             temperature = _buffer[2];
         }
     }
+#else
+    err = LIB_DHT11_ERROR_NO_ERROR;
+    humidity = 55;
+    temperature = 18;
+#endif
 
     return err;
 }
@@ -126,4 +132,3 @@ LIB_DHT11_ERROR DHT11::read_data()
     else
         return LIB_DHT11_ERROR_NO_ERROR;
 }
-
