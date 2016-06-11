@@ -3,6 +3,7 @@
 //------------------------------------------------------------------------------
 #include <unistd.h>
 #include <signal.h>
+#include <algorithm>
 #include <zmq.hpp>
 #include <iostream>
 
@@ -67,12 +68,12 @@ int main(int argc, char* argv[])
             return 1;
         }
     }
-    
+
     if( (serial.size() == 0) || (net_to_serial == 0) || (serial_to_net == 0) )
     {
         std::cout << "ERROR: see usage with --help." << std::endl;
         return 1;
-    }   
+    }
 
     // init serial port
     SerialPort serial_port(serial.c_str());

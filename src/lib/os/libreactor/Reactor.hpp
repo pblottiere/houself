@@ -1,6 +1,7 @@
 #ifndef REACTOR_HPP
 #define REACTOR_HPP
 
+#include <algorithm>
 #include <zmq.hpp>
 #include <vector>
 #include <libreactor/ReactorCallback.hpp>
@@ -17,7 +18,7 @@ public:
     void run();
     void halt();
 
-private:  
+private:
     void build_poll_items();
 
     std::vector<ReactorCallback*> _callbacks;

@@ -39,7 +39,7 @@ namespace libdht11 {
 
         // attr
         uint8_t _pin;
-        uint8_t _buffer[LIB_DHT11_BUFFER_SIZE] = {};
+        uint8_t _buffer[LIB_DHT11_BUFFER_SIZE];
     };
 }
 

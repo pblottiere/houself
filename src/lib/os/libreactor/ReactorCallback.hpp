@@ -1,6 +1,7 @@
 #ifndef REACTOR_CALLBACK_HPP
 #define REACTOR_CALLBACK_HPP
 
+#include <algorithm>
 #include <zmq.hpp>
 #include <stdint.h>
 
@@ -14,7 +15,7 @@ public:
 
     virtual void cb() = 0;
 
-private:  
+private:
     zmq_pollitem_t _item;
 };
 
