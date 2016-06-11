@@ -1,3 +1,6 @@
+[![Build Status](https://secure.travis-ci.org/pblottiere/dominus.png)]
+(http://travis-ci.org/pblottiere/dominus)
+
 Dominus
 =======
 
