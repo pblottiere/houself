@@ -21,5 +21,5 @@ set(SRC
   ${SERVER_SRC_DIR}/server.cpp
   main.cpp)
 
-add_executable( do_tests_server_temp_hum ${SRC} )
-target_link_libraries( do_tests_server_temp_hum mock_arduino )
+add_executable( do_mock_server ${SRC} )
+target_link_libraries( do_mock_server mock_arduino )
