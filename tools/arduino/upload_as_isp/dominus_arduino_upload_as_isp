@@ -1,0 +1,38 @@
+#! /bin/sh
+
+#------------------------------------------------------------------------------
+# vars
+#------------------------------------------------------------------------------
+ARDUINO_PORT=""
+TARGET_HEX=""
+
+#------------------------------------------------------------------------------
+# check usage
+#------------------------------------------------------------------------------
+if [ "$#" = "2" ]
+then
+    ARDUINO_PORT=$1
+    TARGET_HEX=$2
+
+    if [ ! -e $ARDUINO_PORT ]
+    then
+        echo "Error: arduino port '$ARDUINO_PORT' doesn't exist."
+        exit 1
+    fi
+
+    if [ ! -e $TARGET_HEX ]
+    then
+        echo "Error: target hex '$TARGET_HEX' doesn't exist."
+        exit 1
+    fi
+else
+    echo "Usage error: dominus_arduino_upload ARDUINO_PORT TARGET_HEX"
+    exit 1
+fi
+
+#------------------------------------------------------------------------------
+# upload
+#------------------------------------------------------------------------------
+sudo /usr/share/arduino/hardware/tools/avrdude -F \
+    -C/usr/share/arduino/hardware/tools/avrdude.conf -v -v -v -v -patmega328p \
+    -cstk500v1 -P${ARDUINO_PORT} -b19200 -Uflash:w:${TARGET_HEX}:i
