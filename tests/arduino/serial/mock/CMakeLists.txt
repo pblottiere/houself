@@ -1,6 +1,6 @@
 set( CMAKE_CXX_COMPILER g++ )
 add_definitions( -DMOCK )
-set(CMAKE_CXX_FLAGS "-std=gnu++11")
+set(CMAKE_CXX_FLAGS -std=c++11)
 
 # BUILD STATIC LIB FOR ARDUINO
 include_directories (
