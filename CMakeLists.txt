@@ -59,12 +59,10 @@ set(ARDUINO_OBJCOPY avr-objcopy)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 
 set (SERVER_SRC_DIR ${PROJECT_SOURCE_DIR}/src/bin/arduino/server)
-
 set (COMMON_SRC_DIR ${PROJECT_SOURCE_DIR}/src/lib/common)
-
 set (MOCK_SRC_DIR ${PROJECT_SOURCE_DIR}/tests/arduino/mock)
-
 set (TCHAT_SRC_DIR ${COMMON_SRC_DIR}/libtchat)
+set (DMNCORE_DIR ${PROJECT_SOURCE_DIR}/src/lib/arduino/core)
 
 set (LIBCORE_SRC_DIR ${PROJECT_BINARY_DIR}/src/lib/arduino/libcore/)
 set (

@@ -16,6 +16,7 @@ set(
   ${TCHAT_SRC_DIR}/TchatMsgTempHum.cpp
   ${LIBDHT11_SRC_DIR}/DHT11.cpp
   ${LIBESP8266_SRC_DIR}/ESP8266.cpp
+  ${DMNCORE_DIR}/DmnLogger.cpp
 )
 add_library (
   arduino_server
