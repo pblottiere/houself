@@ -3,7 +3,7 @@ libarduino_fix_flags()
 include_directories (
   ${COMMON_SRC_DIR}
   ${LIBDHT11_SRC_DIR}/..
-  ${LIBESP8266_SRC_DIR}/..
+  ${DMNCORE_DIR}/../../../..
   ${ARDUINO_SHARE2}/SoftwareSerial
 )
 
@@ -17,6 +17,7 @@ set(
   ${LIBDHT11_SRC_DIR}/DHT11.cpp
   ${LIBESP8266_SRC_DIR}/ESP8266.cpp
   ${DMNCORE_DIR}/DmnLogger.cpp
+  server.cpp
 )
 add_library (
   arduino_server
@@ -24,7 +25,8 @@ add_library (
 )
 
 # BUILD BINARY
-set(SRC server main)
+set(SRC main)
+
 binarduino_build_cmd_cpp(
   ${SRC}
   CMD_BUILD_D
@@ -37,7 +39,9 @@ add_custom_target(
     ${SRC}
     ALL
     COMMAND ${CMD_BUILD_D}
-    COMMAND ${CMD_BUILD_O} -I${COMMON_SRC_DIR} -I${LIBDHT11_SRC_DIR}/.. -I.
+    COMMAND ${CMD_BUILD_O} -I${LIBDHT11_SRC_DIR}/..
     COMMAND ${CMD_BUILD_ELF} ${CMAKE_CURRENT_BINARY_DIR}/libarduino_server.a
     COMMAND ${CMD_BUILD_HEX}
 )
+
+add_subdirectory( mock )

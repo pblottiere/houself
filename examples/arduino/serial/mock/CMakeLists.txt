@@ -11,5 +11,5 @@ include_directories (
 set( SRC_MOCK
   mock_serial.cpp )
 
-add_executable( do_mock_serial ${SRC_MOCK} )
-target_link_libraries( do_mock_serial mock_arduino )
+add_executable( dmn_mock_serial ${SRC_MOCK} )
+target_link_libraries( dmn_mock_serial mock_arduino )
