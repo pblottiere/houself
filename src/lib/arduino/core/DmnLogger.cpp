@@ -1,3 +1,9 @@
+/**
+ * \file DmnLogger.cpp
+ * \author Paul Blottiere
+ * \date  22/06/2016
+ */
+
 #include "DmnLogger.hpp"
 
 DmnLogger::DmnLogger(  int rx, int tx ) :

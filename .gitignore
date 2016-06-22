@@ -5,6 +5,10 @@ cmake_install.cmake
 build
 config.h
 
+# doc stuff
+doc/soft/api/html
+doc/soft/api/*.db
+
 # compile results
 *.o
 *.d

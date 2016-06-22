@@ -5,6 +5,7 @@ project (dominus)
 # CMAKE CLI OPTIONS
 #------------------------------------------------------------------------------
 option(OS_ONLY "OS_ONLY" OFF)
+option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" ${DOXYGEN_FOUND})
 
 #------------------------------------------------------------------------------
 # CMAKE CUSTOM COMMANDS
@@ -131,6 +132,7 @@ endmacro()
 find_package(ZMQ REQUIRED)
 find_package(CURL REQUIRED)
 find_package(CURLpp REQUIRED)
+find_package(Doxygen)
 
 #------------------------------------------------------------------------------
 # CHECK HEADERS REQUIRED
@@ -199,6 +201,25 @@ if(NOT SCREEN)
 else()
   message(STATUS "Found 'screen': " ${SCREEN})
 endif(NOT SCREEN)
+
+#------------------------------------------------------------------------------
+# DOCUMENTATION
+#------------------------------------------------------------------------------
+if(BUILD_DOCUMENTATION)
+  if(NOT DOXYGEN_FOUND)
+    message(FATAL_ERROR "Doxygen is needed to build the documentation.")
+  endif()
+
+  set(doxyfile ${PROJECT_SOURCE_DIR}/doc/soft/api/Doxyfile)
+
+  add_custom_target(doc
+    COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    COMMENT "Generating API documentation with Doxygen"
+    VERBATIM)
+
+  install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc/soft/api/html DESTINATION share/doc)
+endif()
 
 #------------------------------------------------------------------------------
 # SUBDIRS
