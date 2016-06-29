@@ -1,10 +1,12 @@
 /**
- * \file DmnLogger.cpp
- * \author Paul Blottiere
- * \date  22/06/2016
+ * @file DmnLogger.cpp
+ * @author Paul Blottiere
+ * @date  22/06/2016
  */
 
-#include "DmnLogger.hpp"
+#include <dominus/board/core/DmnLogger.hpp>
+
+using namespace dominus::core;
 
 DmnLogger::DmnLogger(  int rx, int tx ) :
   _serial( rx, tx )
@@ -18,6 +20,5 @@ DmnLogger::~DmnLogger()
 
 void DmnLogger::log( String msg )
 {
-  _serial.print( "[LOG] " );
-  _serial.println( msg );
+  _serial.print( "[LOG] " + msg );
 }

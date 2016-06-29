@@ -4,14 +4,12 @@
 //-----------------------------------------------------------------------------
 // includes
 //-----------------------------------------------------------------------------
-// global include
-#include <Arduino.h>
-#include <SoftwareSerial/SoftwareSerial.h>
-
 // dominus include
+#include <dominus/config.h>
+#include <dominus/board/core/DmnLogger.hpp>
+
 #include <libdht11/DHT11.hpp>
 #include <libesp8266/ESP8266.hpp>
-#include <config.h>
 
 //=============================================================================
 //

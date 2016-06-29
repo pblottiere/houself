@@ -3,6 +3,7 @@ libarduino_fix_flags()
 include_directories (
     ${LIBESP8266_SRC_DIR}/..
     ${ARDUINO_SHARE2}/SoftwareSerial
+    ${DOMINUS_INCLUDE_DIR}
 )
 
 set(
@@ -31,7 +32,7 @@ add_custom_target(
     ${SRC}
     ALL
     COMMAND ${CMD_BUILD_D}
-    COMMAND ${CMD_BUILD_O} -I${LIBESP8266_SRC_DIR}/..
+    COMMAND ${CMD_BUILD_O} -I${LIBESP8266_SRC_DIR}/.. -I${DOMINUS_INCLUDE_DIR}
     COMMAND ${CMD_BUILD_ELF} ${CMAKE_CURRENT_BINARY_DIR}/libarduino_lib_wifi.a
     COMMAND ${CMD_BUILD_HEX}
 )

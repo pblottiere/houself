@@ -3,7 +3,7 @@ CMakeFiles
 CMakeCache.txt
 cmake_install.cmake
 build
-config.h
+include/config.h
 
 # doc stuff
 doc/soft/api/html

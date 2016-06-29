@@ -19,6 +19,7 @@ set(SRC
   ${TCHAT_SRC_DIR}/TchatMsgTempHum.cpp
   ${LIBDHT11_SRC_DIR}/DHT11.cpp
   ${LIBESP8266_SRC_DIR}/ESP8266.cpp
+  ${DOMINUS_CORE_DIR}/DmnLogger.cpp
   ../server.cpp
   main.cpp)
 

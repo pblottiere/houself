@@ -7,7 +7,7 @@
 #include <libesp8266/ESP8266.hpp>
 #include <libdht11/DHT11.hpp>
 
-#include <config.h>
+#include <dominus/config.h>
 
 #define DHT11_PIN           5
 

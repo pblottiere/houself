@@ -3,7 +3,9 @@
 //-----------------------------------------------------------------------------
 // global var
 //-----------------------------------------------------------------------------
-SoftwareSerial dbg_serial(10, 11); // RX, TX
+int32_t pin_rx_log(10);
+int32_t pin_tx_log(11);
+dominus::core::DmnLogger logger(pin_rx_log, pin_tx_log);
 
 int32_t pin_rst(12);
 int32_t pin_led(13);
@@ -64,7 +66,7 @@ void update_temperature()
   String temperature_str = float_to_str(temperature);
   String humidity_str = float_to_str(humidity);
 
-  dbg_serial.println("[DHT11] Temperature : " + temperature_str
+  logger.log("[DHT11] Temperature : " + temperature_str
           + " / humidity : " + humidity_str);
 
   if (err == LIB_DHT11_ERROR_NO_ERROR)
@@ -88,26 +90,24 @@ void setup_server()
   pinMode(pin_led, OUTPUT);
 
   // init dbg serial
-  dbg_serial.begin(9600);
-
-  dbg_serial.println();
-  dbg_serial.println();
-  dbg_serial.println("[SERVER] Init ESP8266 wifi...");
+  logger.log("");
+  logger.log("");
+  logger.log("[SERVER] Init ESP8266 wifi...");
 
   // init wifi
-  wifi.set_dbg_serial(dbg_serial);
+  //wifi.set_dbg_serial(dbg_serial);
   LIB_ESP8266_ERROR err = wifi.connect(ESSID, PASSWORD);
 
   if (err == LIB_ESP8266_ERROR_NO_ERROR)
   {
-    dbg_serial.println("[SERVER] Wifi connection ready");
+    logger.log("[SERVER] Wifi connection ready");
     wifi_ready = true;
     digitalWrite(pin_led, HIGH);
   }
   else
   {
     // reboot wifi and arduino
-    dbg_serial.println("[SERVER] Wifi connection failed. Reboot...");
+    logger.log("[SERVER] Wifi connection failed. Reboot...");
     wifi.reset();
     arduino_reset();
   }

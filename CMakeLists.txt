@@ -28,7 +28,7 @@ SET( SERVER_IP "SERVER_IP" CACHE STRING "The domoticz server IP")
 SET( SERVER_PORT "SERVER_PORT" CACHE STRING "The dommoticz server port")
 CONFIGURE_FILE(
     ${CMAKE_SOURCE_DIR}/config.h.cmake
-    ${CMAKE_SOURCE_DIR}/config.h
+    ${CMAKE_SOURCE_DIR}/include/dominus/config.h
 )
 
 #------------------------------------------------------------------------------
@@ -63,7 +63,9 @@ set (SERVER_SRC_DIR ${PROJECT_SOURCE_DIR}/src/bin/arduino/server)
 set (COMMON_SRC_DIR ${PROJECT_SOURCE_DIR}/src/lib/common)
 set (MOCK_SRC_DIR ${PROJECT_SOURCE_DIR}/tests/arduino/mock)
 set (TCHAT_SRC_DIR ${COMMON_SRC_DIR}/libtchat)
-set (DMNCORE_DIR ${PROJECT_SOURCE_DIR}/src/lib/arduino/core)
+
+set (DOMINUS_CORE_DIR ${PROJECT_SOURCE_DIR}/src/lib/arduino/core)
+set (DOMINUS_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 
 set (LIBCORE_SRC_DIR ${PROJECT_BINARY_DIR}/src/lib/arduino/libcore/)
 set (
@@ -218,7 +220,7 @@ if(BUILD_DOCUMENTATION)
     COMMENT "Generating API documentation with Doxygen"
     VERBATIM)
 
-  install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc/soft/api/html DESTINATION share/doc)
+  install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html DESTINATION share/doc/dominus)
 endif()
 
 #------------------------------------------------------------------------------
@@ -226,6 +228,7 @@ endif()
 #------------------------------------------------------------------------------
 add_subdirectory (etc)
 add_subdirectory (src)
+add_subdirectory (include)
 add_subdirectory (tools)
 add_subdirectory (tests)
 add_subdirectory (examples)

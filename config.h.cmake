@@ -1,5 +1,5 @@
-#ifndef CONFIG_H
-#define CONFIG_H
+#ifndef DMNCONFIG_H
+#define DMNCONFIG_H
 
 #cmakedefine ESSID "@ESSID@"
 #cmakedefine PASSWORD "@PASSWORD@"
