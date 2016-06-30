@@ -60,7 +60,8 @@ class Message
 class MessageTest : public Message
 {
   public:
-    MessageTest()
+    MessageTest( ESP8266_FIRMWARE f = ESP8266_FIRMWARE_1 )
+      : Message( f )
     {
       this->_message = "AT";
       this->_ack = "OK";
@@ -73,7 +74,11 @@ class MessageTest : public Message
 class MessageReset : public Message
 {
   public:
-    MessageReset() { this->_message = "AT+RST"; };
+    MessageReset( ESP8266_FIRMWARE f = ESP8266_FIRMWARE_1 )
+      : Message( f )
+    {
+      this->_message = "AT+RST";
+    };
 };
 
 // ----------------------------------------------------------------------------
@@ -82,7 +87,9 @@ class MessageReset : public Message
 class MessageOpenLink : public Message
 {
   public:
-    MessageOpenLink(ESP8266_MODE mode, String ip, int port)
+    MessageOpenLink( ESP8266_MODE mode, String ip, int port,
+       ESP8266_FIRMWARE f = ESP8266_FIRMWARE_1 )
+      : Message( f )
     {
       _message = "AT+CIPSTART=";
 
@@ -103,7 +110,8 @@ class MessageOpenLink : public Message
 class MessageSendData : public Message
 {
   public:
-    MessageSendData(String msg)
+    MessageSendData( String msg, ESP8266_FIRMWARE f = ESP8266_FIRMWARE_1 )
+      : Message( f )
     {
       this->_part1 = "AT+CIPSEND=";
       this->_part1 += msg.length();
@@ -128,7 +136,11 @@ class MessageSendData : public Message
 class MessageCloseConnection : public Message
 {
   public:
-    MessageCloseConnection() { this->_message = "AT+CIPCLOSE"; };
+    MessageCloseConnection( ESP8266_FIRMWARE f = ESP8266_FIRMWARE_1 )
+      : Message( f )
+    {
+      this->_message = "AT+CIPCLOSE";
+    };
 };
 
 // ----------------------------------------------------------------------------
@@ -137,7 +149,9 @@ class MessageCloseConnection : public Message
 class MessageJoinAP : public Message
 {
   public:
-    MessageJoinAP(String essid, String password)
+    MessageJoinAP( String essid, String password,
+        ESP8266_FIRMWARE f = ESP8266_FIRMWARE_1 )
+      : Message( f )
     {
       this->_message = "AT+CWJAP=\"" + essid + "\",\"" + password + "\"";
       this->_ack = "OK";
@@ -150,7 +164,9 @@ class MessageJoinAP : public Message
 class MessageWifiMode : public Message
 {
   public:
-    MessageWifiMode(ESP8266_WIFI_MODE mode)
+    MessageWifiMode( ESP8266_WIFI_MODE mode,
+        ESP8266_FIRMWARE f = ESP8266_FIRMWARE_1 )
+      : Message( f )
     {
       this->_message = "AT+CWMODE=";
       this->_message += mode;
@@ -164,7 +180,9 @@ class MessageWifiMode : public Message
 class MessageConnectionMode : public Message
 {
   public:
-    MessageConnectionMode(ESP8266_CONNECTION_MODE mode)
+    MessageConnectionMode( ESP8266_CONNECTION_MODE mode,
+        ESP8266_FIRMWARE f = ESP8266_FIRMWARE_1 )
+      : Message( f )
     {
       this->_message = "AT+CIPMUX=";
       this->_message += mode;
@@ -177,5 +195,9 @@ class MessageConnectionMode : public Message
 class MessageGetIP : public Message
 {
   public:
-    MessageGetIP() { this->_message = "AT+CIFSR"; };
+    MessageGetIP( ESP8266_FIRMWARE f = ESP8266_FIRMWARE_1 )
+      : Message( f )
+    {
+      this->_message = "AT+CIFSR";
+    };
 };
