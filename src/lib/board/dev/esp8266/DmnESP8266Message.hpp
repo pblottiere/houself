@@ -1,3 +1,9 @@
+/**
+ * @file DmnESP8266Message.hpp
+ * @author Paul Blottiere
+ * @date 30/06/2016
+ */
+
 #pragma once
 
 #include <dominus/board/core/DmnCore.hpp>
