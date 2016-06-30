@@ -36,7 +36,7 @@ add_custom_target(
     ALL
     COMMAND ${CMD_BUILD_D}
     COMMAND ${CMD_BUILD_O} -I${LIBDHT11_SRC_DIR}/.. -I${DOMINUS_INCLUDE_DIR}
-    COMMAND ${CMD_BUILD_ELF} ${CMAKE_CURRENT_BINARY_DIR}/libarduino_server.a ${CMAKE_CURRENT_BINARY_DIR}/../../../src/lib/arduino/core/libdominuscore.a
+    COMMAND ${CMD_BUILD_ELF} ${CMAKE_CURRENT_BINARY_DIR}/libarduino_server.a ${CMAKE_CURRENT_BINARY_DIR}/../../../src/lib/board/core/libdominuscore.a
     COMMAND ${CMD_BUILD_HEX}
 )
 

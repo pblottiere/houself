@@ -64,10 +64,10 @@ set (COMMON_SRC_DIR ${PROJECT_SOURCE_DIR}/src/lib/common)
 set (MOCK_SRC_DIR ${PROJECT_SOURCE_DIR}/tests/arduino/mock)
 set (TCHAT_SRC_DIR ${COMMON_SRC_DIR}/libtchat)
 
-set (DOMINUS_CORE_DIR ${PROJECT_SOURCE_DIR}/src/lib/arduino/core)
+set (DOMINUS_CORE_DIR ${PROJECT_SOURCE_DIR}/src/lib/board/core)
 set (DOMINUS_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 
-set (LIBCORE_SRC_DIR ${PROJECT_BINARY_DIR}/src/lib/arduino/libcore/)
+set (LIBCORE_SRC_DIR ${PROJECT_BINARY_DIR}/src/lib/board/libcore/)
 set (
   LIBCORE_SRC_FILES
   ${ARDUINO_SRC}/WInterrupts.c
@@ -90,11 +90,11 @@ set (
   ${ARDUINO_SRC}/WString.cpp
 )
 
-set (LIBDHT11_SRC_DIR ${PROJECT_SOURCE_DIR}/src/lib/arduino/libdht11/)
-set (LIBDHT11_BUILD_DIR ${PROJECT_BINARY_DIR}/src/lib/arduino/libdht11/)
+set (LIBDHT11_SRC_DIR ${PROJECT_SOURCE_DIR}/src/lib/board/libdht11/)
+set (LIBDHT11_BUILD_DIR ${PROJECT_BINARY_DIR}/src/lib/board/libdht11/)
 
-set (LIBESP8266_SRC_DIR ${PROJECT_SOURCE_DIR}/src/lib/arduino/libesp8266/)
-set (LIBESP8266_BUILD_DIR ${PROJECT_BINARY_DIR}/src/lib/arduino/libesp8266/)
+set (LIBESP8266_SRC_DIR ${PROJECT_SOURCE_DIR}/src/lib/board/libesp8266/)
+set (LIBESP8266_BUILD_DIR ${PROJECT_BINARY_DIR}/src/lib/board/libesp8266/)
 
 #------------------------------------------------------------------------------
 # MACRO
