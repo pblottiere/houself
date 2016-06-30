@@ -19,7 +19,7 @@ DmnSerial::~DmnSerial()
 {
 }
 
-void DmnSerial::print( String msg )
+void DmnSerial::print( String msg ) const
 {
   Serial.println( msg );
 

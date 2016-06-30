@@ -16,7 +16,16 @@ namespace dominus
 {
   namespace core
   {
-    class DmnWifi : public DmnSerial
+    enum DMN_WIFI_ERROR
+    {
+      DMN_WIFI_ERROR_UNKNOWN,
+      DMN_WIFI_ERROR_NO_ERROR,
+      DMN_WIFI_ERROR_OFFLINE,
+      DMN_WIFI_ERROR_NOIP,
+      DMN_WIFI_ERROR_TIMEOUT
+    };
+
+    class DmnWifi : protected DmnSerial
     {
       public:
         /**
@@ -30,8 +39,9 @@ namespace dominus
          * @brief connect the device to a wifi network
          * @param essid : the ESSID of the network
          * @param pw : the password
+         * @return a DMN_WIFI_ERROR
          */
-        virtual bool connect( String essid, String pw ) = 0;
+        virtual DMN_WIFI_ERROR connect( String essid, String pw ) = 0;
 
         /**
          * @brief send data over the network.
@@ -39,7 +49,7 @@ namespace dominus
          * @param port : port of the server
          * @param data : data to send over the network
          */
-        virtual bool sendDataOverNetwork( String ip, int port, String data ) = 0;
+        virtual bool send( String ip, int port, String data ) = 0;
 
       protected:
         bool _connected;

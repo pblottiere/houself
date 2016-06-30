@@ -8,19 +8,12 @@
 
 #include <dominus/board/core/DmnWifi.hpp>
 
+class Message;
+
 namespace dominus
 {
   namespace dev
   {
-    enum DMN_ESP8266_ERROR
-    {
-      UNKNOWN,
-      NO_ERROR,
-      OFFLINE,
-      NOIP,
-      TIMEOUT
-    };
-
     /**
      * @class DmnESP8266
      * @brief Implements the wifi brick for the ESP8266 device.
@@ -38,8 +31,9 @@ namespace dominus
          * @brief connect the device to a wifi network
          * @param essid : the ESSID of the network
          * @param pw : the password
+         * @return a DMN_WIFI_ERROR
          */
-        bool connect( String essid, String pw );
+        core::DMN_WIFI_ERROR connect( String essid, String pw ) override;
 
         /**
          * @brief send data over the network.
@@ -47,7 +41,20 @@ namespace dominus
          * @param port : port of the server
          * @param data : data to send over the network
          */
-        bool sendDataOverNetwork( String ip, int port, String data );
+        bool send( String ip, int port, String data ) override;
+
+        /**
+         * @brief Reset the chipset
+         */
+        void reset();
+
+      private:
+        core::DMN_WIFI_ERROR is_online() const;
+        core::DMN_WIFI_ERROR get_ip( const String &essid, const String &pw );
+        bool write_and_wait_ack( const String &msg, const String &ack ) const;
+        bool write_and_wait_ack( const Message &msg ) const;
+
+        int32_t _retry;
     };
   }
 }

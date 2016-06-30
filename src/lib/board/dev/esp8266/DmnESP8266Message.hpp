@@ -1,170 +1,181 @@
-#ifndef LIB_ESP8266_MESSAGE
-#define LIB_ESP8266_MESSAGE
+#pragma once
 
-//------------------------------------------------------------------------------
-// includes
-//------------------------------------------------------------------------------
 #include <Arduino.h>
 
-//------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 // enum, const
-//------------------------------------------------------------------------------
-enum LIB_ESP8266_MODE
+// ----------------------------------------------------------------------------
+enum ESP8266_FIRMWARE
 {
-    LIB_ESP8266_MODE_UDP,
-    LIB_ESP8266_MODE_TCP
+  ESP8266_FIRMWARE_1,
+  ESP8266_FIRMWARE_2
 };
 
-enum LIB_ESP8266_WIFI_MODE
+enum ESP8266_MODE
 {
-    LIB_ESP8266_WIFI_MODE_STA = 1,
-    LIB_ESP8266_WIFI_MODE_AP = 2,
-    LIB_ESP8266_WIFI_MODE_BOTH = 3
+  ESP8266_MODE_UDP,
+  ESP8266_MODE_TCP
 };
 
-enum LIB_ESP8266_CONNECTION_MODE
+enum ESP8266_WIFI_MODE
 {
-    LIB_ESP8266_CONNECTION_MODE_SINGLE = 0,
-    LIB_ESP8266_CONNECTION_MODE_MULTIPLE = 1
+  ESP8266_WIFI_MODE_STA = 1,
+  ESP8266_WIFI_MODE_AP = 2,
+  ESP8266_WIFI_MODE_BOTH = 3
 };
 
-//==============================================================================
+enum ESP8266_CONNECTION_MODE
+{
+  ESP8266_CONNECTION_MODE_SINGLE = 0,
+  ESP8266_CONNECTION_MODE_MULTIPLE = 1
+};
+
+// ============================================================================
 //
 // Classes
 //
-//==============================================================================
-namespace libesp8266
+// ============================================================================
+// ----------------------------------------------------------------------------
+// Message
+// ----------------------------------------------------------------------------
+class Message
 {
-    //--------------------------------------------------------------------------
-    // Message
-    //--------------------------------------------------------------------------
-    class Message
+  public:
+    Message( ESP8266_FIRMWARE f = ESP8266_FIRMWARE_1 )
+      : _message(""), _ack("") {};
+    virtual ~Message() {};
+
+    String data() const { return this->_message; };
+    String ack() const { return this->_ack; };
+
+  protected:
+    ESP8266_FIRMWARE _firmware;
+    String _message;
+    String _ack;
+};
+
+// ----------------------------------------------------------------------------
+// MessageTest
+// ----------------------------------------------------------------------------
+class MessageTest : public Message
+{
+  public:
+    MessageTest()
     {
-        public:
-            Message() : _message("") {};
-            virtual ~Message() {};
+      this->_message = "AT";
+      this->_ack = "OK";
+    };
+};
 
-            String get() { return this->_message; };
+// ----------------------------------------------------------------------------
+// MessageReset
+// ----------------------------------------------------------------------------
+class MessageReset : public Message
+{
+  public:
+    MessageReset() { this->_message = "AT+RST"; };
+};
 
-        protected:
-            String _message;
+// ----------------------------------------------------------------------------
+// MessageOpenLink
+// ----------------------------------------------------------------------------
+class MessageOpenLink : public Message
+{
+  public:
+    MessageOpenLink(ESP8266_MODE mode, String ip, int port)
+    {
+      _message = "AT+CIPSTART=";
+
+      if (mode == ESP8266_MODE_TCP)
+        _message += "\"TCP\"";
+      else
+        _message += "\"UDP\"";
+
+       _message += ",\"" + ip + "\"," + port;
+
+       _ack = "Error"; // we are waiting to not receive it!
+    };
+};
+
+// ----------------------------------------------------------------------------
+// MessageSendData
+// ----------------------------------------------------------------------------
+class MessageSendData : public Message
+{
+  public:
+    MessageSendData(String msg)
+    {
+      this->_part1 = "AT+CIPSEND=";
+      this->_part1 += msg.length();
+      this->_part2 = msg;
+      this->_message = this->_part1 + this->_part2;
+
+      this->_ack = ">";
     };
 
-    //--------------------------------------------------------------------------
-    // MessageTest
-    //--------------------------------------------------------------------------
-    class MessageTest : public Message
+    String get_part1() { return this->_part1; };
+
+    String get_part2() { return this->_part2; };
+
+  public:
+    String _part1;
+    String _part2;
+};
+
+// ----------------------------------------------------------------------------
+// MessageCloseConnection
+// ----------------------------------------------------------------------------
+class MessageCloseConnection : public Message
+{
+  public:
+    MessageCloseConnection() { this->_message = "AT+CIPCLOSE"; };
+};
+
+// ----------------------------------------------------------------------------
+// MessageJoinAP
+// ----------------------------------------------------------------------------
+class MessageJoinAP : public Message
+{
+  public:
+    MessageJoinAP(String essid, String password)
     {
-        public:
-            MessageTest() { this->_message = "AT"; };
+      this->_message = "AT+CWJAP=\"" + essid + "\",\"" + password + "\"";
+      this->_ack = "OK";
     };
+};
 
-    //--------------------------------------------------------------------------
-    // MessageReset
-    //--------------------------------------------------------------------------
-    class MessageReset : public Message
+// ----------------------------------------------------------------------------
+// MessageWifiMode
+// ----------------------------------------------------------------------------
+class MessageWifiMode : public Message
+{
+  public:
+    MessageWifiMode(ESP8266_WIFI_MODE mode)
     {
-        public:
-            MessageReset() { this->_message = "AT+RST"; };
+      this->_message = "AT+CWMODE=";
+      this->_message += mode;
+      this->_ack = "OK";
     };
+};
 
-    //--------------------------------------------------------------------------
-    // MessageOpenLink
-    //--------------------------------------------------------------------------
-    class MessageOpenLink : public Message
+// ----------------------------------------------------------------------------
+// MessageConnectionMode
+// ----------------------------------------------------------------------------
+class MessageConnectionMode : public Message
+{
+  public:
+    MessageConnectionMode(ESP8266_CONNECTION_MODE mode)
     {
-        public:
-            MessageOpenLink(LIB_ESP8266_MODE mode, String ip, int port)
-            {
-                _message = "AT+CIPSTART=";
-
-                if (mode == LIB_ESP8266_MODE_TCP)
-                   _message += "\"TCP\"";
-                 else
-                   _message += "\"UDP\"";
-
-                 _message += ",\"" + ip + "\"," + port;
-            };
+      this->_message = "AT+CIPMUX=";
+      this->_message += mode;
     };
+};
 
-    //--------------------------------------------------------------------------
-    // MessageSendData
-    //--------------------------------------------------------------------------
-    class MessageSendData : public Message
-    {
-        public:
-            MessageSendData(String msg)
-            {
-                this->_part1 = "AT+CIPSEND=";
-                this->_part1 += msg.length();
-                this->_part2 = msg;
-                this->_message = this->_part1 + this->_part2;
-            };
-
-            String get_part1() { return this->_part1; };
-
-            String get_part2() { return this->_part2; };
-
-        public:
-            String _part1;
-            String _part2;
-    };
-
-    //--------------------------------------------------------------------------
-    // MessageCloseConnection
-    //--------------------------------------------------------------------------
-    class MessageCloseConnection : public Message
-    {
-        public:
-            MessageCloseConnection() { this->_message = "AT+CIPCLOSE"; };
-    };
-
-    //--------------------------------------------------------------------------
-    // MessageJoinAP
-    //--------------------------------------------------------------------------
-    class MessageJoinAP : public Message
-    {
-        public:
-            MessageJoinAP(String essid, String password)
-            {
-                this->_message = "AT+CWJAP=\"" + essid + "\",\"" + password + "\"";
-            };
-    };
-
-    //--------------------------------------------------------------------------
-    // MessageWifiMode
-    //--------------------------------------------------------------------------
-    class MessageWifiMode : public Message
-    {
-        public:
-            MessageWifiMode(LIB_ESP8266_WIFI_MODE mode)
-            {
-                this->_message = "AT+CWMODE=";
-                this->_message += mode;
-            };
-    };
-
-    //--------------------------------------------------------------------------
-    // MessageConnectionMode
-    //--------------------------------------------------------------------------
-    class MessageConnectionMode : public Message
-    {
-        public:
-            MessageConnectionMode(LIB_ESP8266_CONNECTION_MODE mode)
-            {
-                this->_message = "AT+CIPMUX=";
-                this->_message += mode;
-            };
-    };
-
-    //--------------------------------------------------------------------------
-    // MessageGetIP
-    //--------------------------------------------------------------------------
-    class MessageGetIP : public Message
-    {
-        public:
-            MessageGetIP() { this->_message = "AT+CIFSR"; };
-    };
-}
-
-#endif
+// ----------------------------------------------------------------------------
+// MessageGetIP
+// ----------------------------------------------------------------------------
+class MessageGetIP : public Message
+{
+  public:
+    MessageGetIP() { this->_message = "AT+CIFSR"; };
+};

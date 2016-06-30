@@ -1,11 +1,10 @@
-# BUILD STATIC LIB FOR ARDUINO
 libarduino_fix_flags()
 
-include_directories(
+include_directories (
   ${DOMINUS_INCLUDE_DIR}
-  )
+)
 
-set(
+set (
   LIB_DOMINUS_ESP8266_SRC
   DmnESP8266.cpp
 )

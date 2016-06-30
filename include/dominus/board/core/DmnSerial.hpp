@@ -36,7 +36,7 @@ namespace dominus
          * @brief Print data on the serial port
          * @param msg
          */
-        void print( String msg );
+        void print( String msg ) const;
 
       private:
         DmnLogger *_logger;
