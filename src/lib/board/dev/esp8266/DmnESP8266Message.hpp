@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Arduino.h>
+#include <dominus/board/core/DmnCore.hpp>
 
 // ----------------------------------------------------------------------------
 // enum, const

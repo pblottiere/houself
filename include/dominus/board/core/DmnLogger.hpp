@@ -6,8 +6,7 @@
 
 #pragma once
 
-#include <Arduino.h>
-#include <SoftwareSerial/SoftwareSerial.h>
+#include <dominus/board/core/DmnCore.hpp>
 
 namespace dominus
 {
